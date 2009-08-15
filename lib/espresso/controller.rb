@@ -1,3 +1,5 @@
+require 'inherited_resources'
+
 module Espresso
   class Controller < InheritedResources::Base
     def new

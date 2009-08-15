@@ -5,12 +5,14 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "espresso"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Rails extender to simplify rails development}
+    gem.description = %Q{Useful templates for controller and model functions}
     gem.email = "rotuka@rotuka.com"
-    gem.homepage = "http://github.com/rotuka/espresso"
+    gem.homepage = "http://github.com/krasivotokak/espresso"
     gem.authors = ["Alexander Semyonov"]
     gem.add_development_dependency "thoughtbot-shoulda"
+    gem.add_dependency('searchlogic', '>= 2.2.3')
+    gem.add_dependency('josevalim-inherited_resources', '>= 0.8.5')
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError

@@ -1,3 +1,5 @@
+require 'searchlogic'
+
 module Espresso
   module Model
     def self.included(model)
