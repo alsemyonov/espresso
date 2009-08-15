@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "espresso.gemspec",
      "init.rb",
      "lib/espresso.rb",
      "lib/espresso/controller.rb",
