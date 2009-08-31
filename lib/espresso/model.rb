@@ -8,8 +8,7 @@ module Espresso
       model.class_eval do
         include InstanceMethods
 
-        attr_accessor :name_field
-        @name_field = :name
+        name_field(:name)
       end
     end
 
