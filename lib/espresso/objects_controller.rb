@@ -33,5 +33,10 @@ module Espresso
       end
       result
     end
+
+    # Build interpolation options for flash messages
+    def interpolation_options
+      { :resource_title => resource.to_s }
+    end
   end
 end
