@@ -1,6 +1,6 @@
 module Espresso
   module Helpers
-    inlude WillPaginate::ViewHelpers
+    include WillPaginate::ViewHelpers
 
     def simple_search
       form_tag(url_for(:action => :index), :method => :get, :class => 'b_search b_search-simple') do
