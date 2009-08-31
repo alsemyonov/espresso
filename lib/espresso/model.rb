@@ -23,7 +23,7 @@ module Espresso
       # @todo Add an options to paginating
       def paginate_found(page = nil, query = nil, simple_query = nil)
         query ||= {}
-        query.merge(parse_simple_query(simple_query)) if simple_query.present?
+        query.merge!(parse_simple_query(simple_query)) if simple_query.present?
         @search = search(query)
         @results = @search.paginate(:page => page)
         [@search, @results]
@@ -58,7 +58,7 @@ module Espresso
 
     module InstanceMethods
       def to_s
-        send(@@name_field).to_s
+        send(self.class.name_field).to_s
       end
 
     protected
