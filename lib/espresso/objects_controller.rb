@@ -2,6 +2,8 @@ require 'inherited_resources'
 
 module Espresso
   class ObjectsController < InheritedResources::Base
+    unloadable
+
     # Same as default InheritedResources::Base#new, but render 'edit' view,
     # other than 'new'
     def new
