@@ -9,7 +9,7 @@ module Espresso
         include InstanceMethods
 
         attr_accessor :name_field
-        self.name_field = :name
+        @name_field = :name
       end
     end
 
