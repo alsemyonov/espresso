@@ -5,11 +5,7 @@ module Espresso
   module Model
     def self.included(model)
       model.extend ClassMethods
-      model.class_eval do
-        include InstanceMethods
-
-        name_field(:name)
-      end
+      model.send :include, InstanceMethods
     end
 
     module ClassMethods
@@ -41,11 +37,8 @@ module Espresso
       # «NameField» is a main field, used to represent model in to_s method and in simple queries
       # @param [Symbol, String] new_name_field new field name
       # @return [Symbol] field name
-      def name_field(new_name_field = nil)
-        if new_name_field.present?
-          @@name_field = new_name_field.to_sym
-        end
-        @@name_field
+      def name_field
+        :name
       end
 
       # Make a slug from object’s NameField
