@@ -1,6 +1,6 @@
 module Espresso
   def self.locale_files
-    Dir[File.join(File.dirname(__FILE__), 'sugar', 'locales', '*')]
+    Dir[File.join(File.dirname(__FILE__), 'espresso', 'locales', '*')]
   end
 end
 
