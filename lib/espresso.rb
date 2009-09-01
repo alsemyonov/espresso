@@ -10,5 +10,5 @@ require 'espresso/model'
 if defined? Rails
   ActiveRecord::Base.send :include, Espresso::Model if defined? ActiveRecord
   ActionView::Base.send :include, Espresso::Helpers if defined? ActionView
-  I18n.load_path.unshift(*Sugar.locale_files)
+  I18n.load_path.unshift(*Espresso.locale_files)
 end
