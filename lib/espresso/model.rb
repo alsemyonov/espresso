@@ -17,9 +17,9 @@ module Espresso
       # @return [Array] searchlogic object and collection of results
       #
       # @todo Add an options to paginating
-      def paginate_found(page = nil, query = nil, simple_query = nil)
+      def paginate_found(page = nil, query = {}, simple_query = nil)
         query ||= {}
-        query.merge!(parse_simple_query(simple_query)) if simple_query.present?
+        query.merge!(self.parse_simple_query(simple_query)) if simple_query
         @search = search(query)
         @results = @search.paginate(:page => page)
         [@search, @results]

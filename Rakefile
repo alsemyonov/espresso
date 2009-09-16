@@ -7,7 +7,7 @@ begin
     gem.name = "espresso"
     gem.summary = %Q{Rails extender to simplify rails development}
     gem.description = %Q{Useful templates for controller and model functions}
-    gem.email = "rotuka@rotuka.com"
+    gem.email = "rotuka@tokak.ru"
     gem.homepage = "http://github.com/krasivotokak/espresso"
     gem.authors = ["Alexander Semyonov"]
     gem.add_development_dependency "thoughtbot-shoulda"
