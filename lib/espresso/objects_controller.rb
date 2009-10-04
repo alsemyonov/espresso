@@ -28,7 +28,7 @@ module Espresso
     # @return [WillPaginate::Collection] collection of objects
     def collection
       unless (result = get_collection_ivar).present?
-        @search, result = end_of_association_chain.paginate_found(params[:page], params[:query], params[:q])
+        @search, result = end_of_association_chain.search_results(params[:page], params[:query], params[:q])
         set_collection_ivar(result)
       end
       result

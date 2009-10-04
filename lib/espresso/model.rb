@@ -3,9 +3,13 @@ require 'searchlogic'
 module Espresso
   # @author Alexander Semyonov
   module Model
+    unloadable
+
     def self.included(model)
-      model.extend ClassMethods
-      model.send :include, InstanceMethods
+      model.class_eval do
+        extend ClassMethods
+        include InstanceMethods
+      end
     end
 
     module ClassMethods
@@ -24,6 +28,7 @@ module Espresso
         @results = @search.paginate(:page => page)
         [@search, @results]
       end
+      alias_method :search_results, :paginate_found
 
       # Make searchlogic query from simple query option
       # Needed to be reimplemented in subclasses
