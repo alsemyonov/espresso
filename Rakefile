@@ -12,8 +12,8 @@ begin
     gem.authors = ["Alexander Semyonov"]
     gem.add_development_dependency "thoughtbot-shoulda"
     gem.add_dependency('searchlogic', '>= 2.2.3')
-    gem.add_dependency('josevalim-inherited_resources', '>= 0.8.5')
-    gem.add_dependency('mislav-will_paginate', '>= 2.3.11')
+    gem.add_dependency('inherited_resources', '>= 0.8.5')
+    gem.add_dependency('will_paginate', '>= 2.3.11')
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
