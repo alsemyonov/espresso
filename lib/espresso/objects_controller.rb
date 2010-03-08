@@ -1,24 +1,8 @@
 require 'inherited_resources'
 
 module Espresso
-  class ObjectsController < InheritedResources::Base
+  class Resource < InheritedResources::Base
     unloadable
-
-    # Same as default InheritedResources::Base#new, but render 'edit' view,
-    # other than 'new'
-    def new
-      new! do |format|
-        format.html { render 'edit' }
-      end
-    end
-
-    # Same as default InheritedResources::Base#create, but render 'edit' view,
-    # other than 'new'
-    def create
-      create! do |success, failure|
-        failure.html { render 'edit' }
-      end
-    end
 
   protected
 
@@ -36,7 +20,9 @@ module Espresso
 
     # Build interpolation options for flash messages
     def interpolation_options
-      { :resource_title => resource.to_s }
+      if resource
+        { :resource_title => resource.to_s }
+      end
     end
   end
 end

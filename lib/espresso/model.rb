@@ -1,4 +1,5 @@
 require 'searchlogic'
+require 'will_paginate'
 
 module Espresso
   # @author Alexander Semyonov
@@ -6,10 +7,28 @@ module Espresso
     unloadable
 
     def self.included(model)
+      super
       model.class_eval do
         extend ClassMethods
-        include InstanceMethods
+        class_inheritable_accessor :model_attrs
+        self.model_attrs = []
       end
+    end
+
+    def to_s
+      send(self.class.name_field).to_s
+    end
+
+    def model_class
+      main_class = "#{::Espresso::MODEL_PREFIX}-#{self.class.name.underscore}"
+      classes = [main_class] +
+      self.class.model_attrs.inject([]) do |collection, attribute|
+                     if send("#{attribute}?")
+                       collection << " #{main_class}_#{attribute}"
+                     end
+                     collection
+                   end
+      classes.join(' ')
     end
 
     module ClassMethods
@@ -52,14 +71,6 @@ module Espresso
       def make_slug(object)
         object.send(name_field).parameterize
       end
-    end
-
-    module InstanceMethods
-      def to_s
-        send(self.class.name_field).to_s
-      end
-
-    protected
     end
   end
 end
