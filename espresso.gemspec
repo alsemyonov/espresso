@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{espresso}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alexander Semyonov"]
-  s.date = %q{2009-10-30}
+  s.date = %q{2010-03-08}
   s.description = %q{Useful templates for controller and model functions}
   s.email = %q{rotuka@tokak.ru}
   s.extra_rdoc_files = [
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "espresso.gemspec",
      "init.rb",
      "lib/espresso.rb",
+     "lib/espresso/haml.rb",
      "lib/espresso/helpers.rb",
      "lib/espresso/locales/en.yml",
      "lib/espresso/locales/ru.yml",
@@ -36,7 +37,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/krasivotokak/espresso}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Rails extender to simplify rails development}
   s.test_files = [
     "test/espresso_test.rb",
