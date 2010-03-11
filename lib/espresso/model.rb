@@ -10,15 +10,18 @@ module Espresso
       super
       model.class_eval do
         extend ClassMethods
-        class_inheritable_accessor :model_attrs
+        class_inheritable_accessor :model_attrs, :name_field
         self.model_attrs = []
+        self.name_field = :name
       end
     end
 
+    # String representation of model, based on Model’s name_field
     def to_s
       send(self.class.name_field).to_s
     end
 
+    # Model’s classes, based on Model.model_attrs
     def model_class
       main_class = "#{::Espresso::MODEL_PREFIX}-#{self.class.name.underscore}"
       classes = [main_class] +
@@ -56,13 +59,6 @@ module Espresso
       # @return [Hash] searchlogic query
       def parse_simple_query(query)
         {:"#{name_field}_like" => query}
-      end
-
-      # «NameField» is a main field, used to represent model in to_s method and in simple queries
-      # @param [Symbol, String] new_name_field new field name
-      # @return [Symbol] field name
-      def name_field
-        :name
       end
 
       # Make a slug from object’s NameField

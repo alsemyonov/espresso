@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alexander Semyonov"]
-  s.date = %q{2010-03-08}
+  s.date = %q{2010-03-12}
   s.description = %q{Useful templates for controller and model functions}
   s.email = %q{rotuka@tokak.ru}
   s.extra_rdoc_files = [
@@ -25,8 +25,11 @@ Gem::Specification.new do |s|
      "espresso.gemspec",
      "init.rb",
      "lib/espresso.rb",
+     "lib/espresso/action_view.rb",
+     "lib/espresso/action_view/navigation.rb",
+     "lib/espresso/action_view/resources.rb",
+     "lib/espresso/action_view/scopes.rb",
      "lib/espresso/haml.rb",
-     "lib/espresso/helpers.rb",
      "lib/espresso/locales/en.yml",
      "lib/espresso/locales/ru.yml",
      "lib/espresso/model.rb",

@@ -54,5 +54,8 @@ rescue LoadError
   end
 end
 
+desc 'Generate documentation'
+task :doc => :yard
+
 desc "Bump patch version and release to github and gemcutter"
 task :bump => %w(version:bump:patch release gemcutter:release install)
