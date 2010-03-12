@@ -20,9 +20,6 @@ module Espresso
       end
 
       def submit_default_value
-        object = @object.respond_to?(:to_model) ? @object.to_model : @object
-        key    = object ? (object.new_record? ? :create : :update) : :submit
-
         model = if object.class.respond_to?(:model_name)
                   object.class.human_name
                 else
@@ -30,11 +27,31 @@ module Espresso
                 end
 
         defaults = []
-        defaults << :"helpers.submit.#{object_name}.#{key}"
-          defaults << :"helpers.submit.#{key}"
-          defaults << "#{key.to_s.humanize} #{model}"
+        defaults << :"helpers.submit.#{object_name}.#{form_action}"
+        defaults << :"helpers.submit.#{form_action}"
+        defaults << "#{form_action.to_s.humanize} #{model}"
 
-          I18n.t(defaults.shift, :model => model, :default => defaults)
+        I18n.t(defaults.shift, :model => model, :default => defaults)
+      end
+
+      def commit_button(*args)
+        options = args.extract_options!
+
+        button_html = options.delete(:button_html) || {}
+        button_html.merge!(:class => [button_html[:class], form_action].compact.join(' '))
+        element_class = ['commit', options.delete(:class)].compact.join(' ')
+        accesskey = (options.delete(:accesskey) || @@default_commit_button_accesskey) unless button_html.has_key?(:accesskey)
+        button_html = button_html.merge(:accesskey => accesskey) if accesskey  
+        template.content_tag(:li, self.submit(options.delete(:label), button_html), :class => element_class)
+      end
+
+    protected
+      def model_object
+        @object.respond_to?(:to_model) ? @object.to_model : @object
+      end
+
+      def form_action
+        model_object ? (model_object.new_record? ? :create : :update) : :submit
       end
     end
   end
