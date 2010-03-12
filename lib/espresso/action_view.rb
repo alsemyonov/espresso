@@ -3,6 +3,7 @@ module Espresso
     autoload :Resources, 'espresso/action_view/resources'
     autoload :Scopes, 'espresso/action_view/scopes'
     autoload :Navigation, 'espresso/action_view/navigation'
+    autoload :FormBuilder, 'espresso/action_view/form_builder'
 
     include Resources
     include Scopes
@@ -14,3 +15,5 @@ module Espresso
     end
   end
 end
+
+Formtastic::SemanticFormHelper.builder = Espresso::ActionView::FormBuilder
