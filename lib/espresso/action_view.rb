@@ -4,10 +4,12 @@ module Espresso
     autoload :Scopes, 'espresso/action_view/scopes'
     autoload :Navigation, 'espresso/action_view/navigation'
     autoload :FormBuilder, 'espresso/action_view/form_builder'
+    autoload :Stats, 'espresso/action_view/stats'
 
     include Resources
     include Scopes
     include Navigation
+    include Stats
 
     # Make body’s modifiers, based on controller_name and action_name
     def body_modifiers
