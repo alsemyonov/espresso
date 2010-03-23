@@ -4,7 +4,11 @@ module Espresso
       def link_to_new(klass=nil, path=nil)
         klass ||= resource_class
         klass_underscored = klass.name.underscore
-        path ||= klass == resource_class ? new_resource_path : [:new, klass_underscored]
+        path ||= if klass == resource_class
+                   new_resource_path
+                 else
+                   [:new, klass_underscored]
+                 end
         link_to(t("helpers.action.#{klass_underscored}.new",
                   :default => [:'helpers.action.new', 'Добавить']),
                 path,

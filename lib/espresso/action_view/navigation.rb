@@ -17,18 +17,6 @@ module Espresso
         @view_name
       end
 
-      def resource?
-        resource
-      rescue
-        false
-      end
-
-      def collection?
-        collection
-      rescue
-        false
-      end
-
       # Make default page title, based on controller and action
       def default_page_title
         text = case view_name

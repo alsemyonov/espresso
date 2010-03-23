@@ -2,9 +2,9 @@ module Espresso
   MODEL_PREFIX = 'b'
 
   autoload :Model, 'espresso/model'
-  autoload :ObjectsController, 'espresso/objects_controller'
-  autoload :Resource, 'espresso/resource'
+  autoload :Resources, 'espresso/resources'
   autoload :ActionView, 'espresso/action_view'
+  autoload :ResourcesHelpers, 'espresso/resources_helpers'
 
   # Make a list of locale files, provided by gem
   def self.locale_files
@@ -14,6 +14,10 @@ end
 
 if defined?(ActiveRecord)
   ActiveRecord::Base.send(:include, Espresso::Model)
+end
+
+if defined?(ActionController)
+  ActionController::Base.send(:include, Espresso::ResourcesHelpers)
 end
 
 if defined?(ActionView)

@@ -4,17 +4,17 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "espresso"
+    gem.name = 'espresso'
     gem.summary = %Q{Rails extender to simplify rails development}
     gem.description = %Q{Useful templates for controller and model functions}
-    gem.email = "rotuka@tokak.ru"
-    gem.homepage = "http://github.com/krasivotokak/espresso"
-    gem.authors = ["Alexander Semyonov"]
-    gem.add_development_dependency "thoughtbot-shoulda"
+    gem.email = 'rotuka@tokak.ru'
+    gem.homepage = 'http://github.com/krasivotokak/espresso'
+    gem.authors = ['Alexander Semyonov']
     gem.add_dependency('searchlogic', '>= 2.2.3')
     gem.add_dependency('inherited_resources', '>= 0.8.5')
     gem.add_dependency('will_paginate', '>= 2.3.11')
     gem.add_dependency('formtastic', '>= 0.9.7')
+    gem.add_development_dependency('shoulda')
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

@@ -10,9 +10,13 @@ module Espresso
       super
       model.class_eval do
         extend ClassMethods
-        class_inheritable_accessor :model_attrs, :name_field
+        class_inheritable_accessor :model_attrs, :name_field, :per_page
         self.model_attrs = []
         self.name_field = :name
+        self.per_page = 10
+
+        named_scope :for_index, :conditions => '1 = 1'
+        named_scope :for_show, :conditions => '1 = 1'
       end
     end
 
@@ -46,9 +50,9 @@ module Espresso
       def paginate_found(page = nil, query = {}, simple_query = nil)
         query ||= {}
         query.merge!(self.parse_simple_query(simple_query)) if simple_query
-        @search = search(query)
-        @results = @search.paginate(:page => page)
-        [@search, @results]
+        searchlogic = search(query)
+        results = searchlogic.paginate(:page => page)
+        [searchlogic, results]
       end
       alias_method :search_results, :paginate_found
 
