@@ -4,6 +4,7 @@ module Espresso
   autoload :Model, 'espresso/model'
   autoload :Resources, 'espresso/resources'
   autoload :ActionView, 'espresso/action_view'
+  autoload :ActionController, 'espresso/action_controller'
   autoload :ResourcesHelpers, 'espresso/resources_helpers'
 
   # Make a list of locale files, provided by gem
@@ -18,6 +19,7 @@ end
 
 if defined?(ActionController)
   ActionController::Base.send(:include, Espresso::ResourcesHelpers)
+  ActionController::Base.extend(Espresso::ActionController)
 end
 
 if defined?(ActionView)

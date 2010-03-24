@@ -4,19 +4,23 @@ require 'will_paginate'
 module Espresso
   # @author Alexander Semyonov
   module Model
-    unloadable
-
     def self.included(model)
       super
       model.class_eval do
         extend ClassMethods
+
         class_inheritable_accessor :model_attrs, :name_field, :per_page
+
         self.model_attrs = []
         self.name_field = :name
         self.per_page = 10
 
         named_scope :for_index, :conditions => '1 = 1'
+        named_scope :for_feed, :conditions => '1 = 1'
         named_scope :for_show, :conditions => '1 = 1'
+        named_scope :recent, lambda {
+          {:limit => per_page}
+        }
       end
     end
 
