@@ -16,7 +16,7 @@ module Espresso
         self.per_page = 10
 
         named_scope :for_index, :conditions => '1 = 1'
-        named_scope :for_feed, :conditions => '1 = 1'
+        named_scope :for_feed, :order => 'created_at DESC'
         named_scope :for_show, :conditions => '1 = 1'
         named_scope :recent, lambda {
           {:limit => per_page}
