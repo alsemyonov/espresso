@@ -1,4 +1,5 @@
 require 'inherited_resources'
+require 'has_scope'
 
 module Espresso
   module Resources
@@ -28,7 +29,7 @@ module Espresso
           options[:only] = :index
         end
 
-        class_inheritable_accessor :feed_formats
+        class_inheritable_accessor(:feed_formats) unless respond_to?(:feed_formats)
         self.feed_formats = args.empty? ? [:atom] : args
         self.feed_formats = self.feed_formats.map(&:to_sym)
 
@@ -37,16 +38,15 @@ module Espresso
         end
 
         include FeedScope
+        has_scope :for_feed, options.merge(:default => true,
+                                           :type => :boolean,
+                                           :if => :feed_scope_applicable?)
       end
     end
 
     module FeedScope
-      def apply_scopes(target_object)
-        if params[:format] && self.class.feed_formats.include?(params[:format].to_sym)
-          target_object.for_feed
-        else
-          target_object
-        end
+      def feed_scope_applicable?
+        params[:format] && self.class.feed_formats.include?(params[:format].to_sym)
       end
     end
 
