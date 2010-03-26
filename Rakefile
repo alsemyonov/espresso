@@ -10,11 +10,12 @@ begin
     gem.email = 'rotuka@tokak.ru'
     gem.homepage = 'http://github.com/krasivotokak/espresso'
     gem.authors = ['Alexander Semyonov']
-    gem.add_dependency('searchlogic', '>= 2.2.3')
-    gem.add_dependency('inherited_resources', '>= 0.8.5')
-    gem.add_dependency('will_paginate', '>= 2.3.11')
-    gem.add_dependency('formtastic', '>= 0.9.7')
+    gem.add_dependency('activesupport', '~> 2.3.5')
+    gem.add_dependency('activerecord', '~> 2.3.5')
+    gem.add_dependency('actionpack', '~> 2.3.5')
+    gem.add_dependency('inherited_resources', '~> 1.0.5')
     gem.add_development_dependency('shoulda')
+    gem.add_development_dependency('redgreen')
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -48,7 +49,9 @@ task :default => :test
 
 begin
   require 'yard'
-  YARD::Rake::YardocTask.new
+  YARD::Rake::YardocTask.new do |yard|
+    yard.options << '--no-private'
+  end
 rescue LoadError
   task :yardoc do
     abort "YARD is not available. In order to run yardoc, you must: sudo gem install yard"

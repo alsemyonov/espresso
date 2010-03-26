@@ -1,9 +1,9 @@
-= espresso
+= Espresso
 
-Description goes here.
+Some useful extensions to default Rails environment.
 
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
@@ -15,4 +15,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2009 Alexander Semyonov. See LICENSE for details.
+© 2009 Alexander Semyonov. See LICENSE for details.
