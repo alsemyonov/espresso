@@ -2,6 +2,20 @@
 
 Some useful extensions to default Rails environment.
 
+Can be more extended if using with InheritedResources, WillPaginate, Searchlogic and Formtastic.
+
+== Espresso::Model
+
+Enhances ActiveRecord::Base classes with #name_field and #make_slug methods.
+
+== Espresso::View
+
+Enhances ActionView with some useful helpers
+
+== Espresso::Controller
+
+Uses InheritedResources, WillPaginate and Searchlogic to provide enhanced RESTful resources controllers.
+
 == Note on Patches/Pull Requests
 
 * Fork the project.

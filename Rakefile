@@ -39,7 +39,19 @@ begin
   end
 rescue LoadError
   task :rcov do
-    abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
+    abort "RCov is not available. In order to run rcov, you must: sudo gem install rcov"
+  end
+end
+
+begin
+  require 'reek/rake/task'
+  Reek::Rake::Task.new do |test|
+    test.libs << 'lib'
+    test.verbose = true
+  end
+rescue LoadError
+  task :reek do
+    abort "Reek is not available. In order to run reek, you must: sudo gem install reek"
   end
 end
 
