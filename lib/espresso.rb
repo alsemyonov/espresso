@@ -1,11 +1,16 @@
 $KCODE = 'u'
+require 'active_support/core_ext/module'
 
 module Espresso
   autoload :Model, 'espresso/model'
   autoload :View, 'espresso/view'
   autoload :Controller, 'espresso/controller'
+  autoload :Collection, 'espresso/collection'
 
   BASE_MODULES = %w(model view controller)
+
+  mattr_accessor :extensions
+  self.extensions = []
 
   # Configures Espresso.
   # By default, loads all extensions
@@ -21,8 +26,9 @@ module Espresso
   # @param [String, Symbol] extension name of the Espresso extension
   # @param [true, false] extend_modules whether to extend modules Model, View, Controller or not
   def self.uses(extension, extend_modules = true)
-    Kernel.require "espresso/extensions/#{extension}"
-    if extend_modules && extension != :all
+    require(extension)
+    require("espresso/extensions/#{extension}")
+    if extend_modules && :all != extension
       extension = extension.to_s.classify
       BASE_MODULES.each do |module_name|
         mod = const_get(module_name.classify)
@@ -39,19 +45,6 @@ module Espresso
                                       extension.const_get(:ClassMethods))
     mod.const_get(:InstanceMethods).send(:include,
                                          extension.const_get(:InstanceMethods))
-  end
-
-  # Requires Espressso extension and submodules
-  # @param [String, Symbol] library extension name to require
-  # @param [Array, nil] submodules list of submodules to include
-  def self.require(library, submodules = BASE_MODULES)
-    Kernel.require(library)
-    submodules.each do |module_name|
-      Kernel.require("espresso/#{module_name}/#{library}")
-    end
-    Kernel.require("espresso/")
-  rescue LoadError
-    raise "Espresso require #{library} to use Espresso::#{library.classify} extension"
   end
 end
 

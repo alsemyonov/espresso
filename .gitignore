@@ -1,4 +1,6 @@
-pkg
 *.gem
-doc
 .yardoc
+coverage
+doc
+pkg
+vendor/gems
