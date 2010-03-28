@@ -1,5 +1,5 @@
-require 'has_scope'
 require 'espresso/view'
+require 'has_scope'
 
 module Espresso::View
   mattr_accessor :scope_filter_wrapper_class, :scope_filter_ul_class

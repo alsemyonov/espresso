@@ -1,5 +1,5 @@
-require 'formtastic'
 require 'espresso/view'
+require 'formtastic'
 
 module Espresso
   module View

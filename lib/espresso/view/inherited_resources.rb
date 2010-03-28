@@ -1,6 +1,5 @@
-require 'espresso'
-require 'inherited_resources'
 require 'espresso/view'
+require 'inherited_resources'
 
 module Espresso
   module View

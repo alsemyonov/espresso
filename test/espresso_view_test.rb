@@ -7,7 +7,7 @@ class Espresso::ViewTest < Test::Unit::TestCase
   should_have_class_methods :block_prefix, :block_classes
   should_have_instance_methods :model_classes, :view_name,
     :default_page_title, :page_title, :head_title, :navigation_list,
-    :overwrite_url, :overwrite_path, :paginated_list,
+    :overwrite_url, :overwrite_path, :online_stats,
     :time, :date
 
   {
