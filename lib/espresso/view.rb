@@ -5,6 +5,8 @@ module Espresso
   module View
     extend Espresso::Concern
 
+    autoload :FormBuilder, 'espresso/lib/form_builder'
+
     mattr_accessor :block_prefix
     self.block_prefix = 'b'
 
@@ -179,25 +181,6 @@ module Espresso
           end
         end
       end
-
-      def paginated_list(collection_name, options = {})
-        collection = options.delete(:collection) do
-          instance_variable_get("@#{collection_name}")
-        end
-        prefix = options.delete(:prefix)
-        prefix = prefix ? " b-list_#{prefix}_#{collection_name}" : nil
-        start = (collection.respond_to?(:offset) ? collection.offset : 0) + 1
-        ''.tap do |result|
-          result << content_tag(:ol,
-                                render(collection),
-                                :class => "b-list b-list_#{collection_name}#{prefix}",
-                                :start => start)
-          if collection.respond_to?(:total_pages)
-            result << (will_paginate(collection, options) || '')
-          end
-        end
-      end
-
     end
   end
 end
