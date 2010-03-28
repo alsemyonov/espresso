@@ -3,6 +3,11 @@ require 'active_support/core_ext/class/inheritable_attributes'
 
 module Espresso
   module Controller
+    mattr_accessor :default_resources_options
+    self.default_resources_options = {
+      :enhance => true
+    }
+
     class << self
       def included_with_inherited_resources(base)
         included_without_inherited_resources
@@ -14,9 +19,14 @@ module Espresso
 
     module ClassMethods
       # Includes default CRUD actions in ActionController::Base using InheritedResources, enhance
+      # @param [Hash] options options of resources
+      # @option options :enhance (true) whether to enhance resource controller with Espresso-provided helpers or not
       def resources(options = {})
+        options.reverse_merge!(Espresso::Controller.default_resources_options)
         inherit_resources
-        include Espresso::Controller::InheritedResources
+        if options[:enhance]
+          include Espresso::Controller::InheritedResources
+        end
       end
     end
 
