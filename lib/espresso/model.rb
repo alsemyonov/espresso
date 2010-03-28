@@ -1,19 +1,16 @@
+require 'espresso'
 require 'active_support/core_ext/class/inheritable_attributes'
 require 'active_support/core_ext/string'
 
 module Espresso
   module Model
-    # @private
-    def self.included(base) #:nodoc:
-      base.extend ClassMethods
-      base.class_eval do
-        include InstanceMethods
+    extend Espresso::Concern
 
-        class_inheritable_accessor :name_field, :model_modifiers
+    included do
+      class_inheritable_accessor :name_field, :model_modifiers
 
-        self.name_field = :name
-        self.model_modifiers = []
-      end
+      self.name_field = :name
+      self.model_modifiers = []
     end
 
     module ClassMethods
