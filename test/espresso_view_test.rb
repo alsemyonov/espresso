@@ -2,9 +2,13 @@ require 'test_helper'
 require 'espresso/view'
 
 class Espresso::ViewTest < Test::Unit::TestCase
-  should_have_class_methods :block_prefix
-
   include Espresso::View
+
+  should_have_class_methods :block_prefix, :block_classes
+  should_have_instance_methods :model_classes, :view_name,
+    :default_page_title, :page_title, :head_title, :navigation_list,
+    :overwrite_url, :overwrite_path, :paginated_list,
+    :time, :date
 
   {
     'b-example' => ['example'],
@@ -13,8 +17,8 @@ class Espresso::ViewTest < Test::Unit::TestCase
     'o-example' => ['example', [], {:type => 'o'}],
     'y-example y-example_foo y-example_bar y-example_baz' => ['example', %w(foo bar baz), {:type => 'y'}],
   }.each do |result, params|
-    should "build “#{result}” from #{params.inspect}" do
-      assert_equal result, self.class.espresso_block_classes(*params)
+    should "build '#{result}' from #{params.inspect}" do
+      assert_equal result, Espresso::View.block_classes(*params)
     end
   end
 
@@ -30,12 +34,12 @@ class Espresso::ViewTest < Test::Unit::TestCase
     end
   end
 
-  should 'build “b-espresso-view-test-example” from Example instance' do
+  should 'build "b-espresso-view-test-example" from Example instance' do
     @example = Example.new
     assert_equal 'b-espresso-view-test-example', model_classes(@example)
   end
 
-  should 'build “b-foo-example b-foo-example_foo” from FooExample instance' do
+  should 'build "b-foo-example b-foo-example_foo" from FooExample instance' do
     @example = FooExample.new
     assert_equal 'b-foo-example b-foo-example_foo', model_classes(@example)
   end

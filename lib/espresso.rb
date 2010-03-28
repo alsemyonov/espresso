@@ -25,18 +25,8 @@ module Espresso
 
   # Loads Espresso extensions
   # @param [String, Symbol] extension name of the Espresso extension
-  # @param [true, false] extend_modules whether to extend modules Model, View, Controller or not
-  def self.uses(extension, extend_modules = true)
-    require(extension)
+  def self.uses(extension)
     require("espresso/extensions/#{extension}")
-    if extend_modules && :all != extension
-      extension = extension.to_s.classify
-      BASE_MODULES.each do |module_name|
-        mod = const_get(module_name.classify)
-        extension = mod.const_get(extension)
-        mod.send(:include, extension)
-      end
-    end
   end
 end
 

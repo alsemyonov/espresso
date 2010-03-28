@@ -33,7 +33,7 @@ end
 begin
   require 'rcov/rcovtask'
   Rcov::RcovTask.new do |test|
-    test.libs << 'test'
+    test.libs << 'lib' << 'test'
     test.pattern = 'test/**/*_test.rb'
     test.verbose = true
   end
@@ -46,12 +46,23 @@ end
 begin
   require 'reek/rake/task'
   Reek::Rake::Task.new do |test|
-    test.libs << 'lib'
-    test.verbose = true
+    test.ruby_opts << '-rubygems'
   end
 rescue LoadError
   task :reek do
     abort "Reek is not available. In order to run reek, you must: sudo gem install reek"
+  end
+end
+
+begin
+  require 'roodi'
+  require 'roodi_task'
+  RoodiTask.new do |t|
+    t.patterns << 'lib/*.rb' << 'lib/**/*.rb'
+  end
+rescue LoadError
+  task :roodi do
+    abort "Roodi is not available. In order to run reek, you must: sudo gem install roodi"
   end
 end
 
