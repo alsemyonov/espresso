@@ -6,6 +6,7 @@ module Espresso
   autoload :View, 'espresso/view'
   autoload :Controller, 'espresso/controller'
   autoload :Collection, 'espresso/collection'
+  autoload :Concern, 'espresso/concern'
 
   BASE_MODULES = %w(model view controller)
 
@@ -32,19 +33,10 @@ module Espresso
       extension = extension.to_s.classify
       BASE_MODULES.each do |module_name|
         mod = const_get(module_name.classify)
-        extend_module(mod, mod.const_get(extension))
+        extension = mod.const_get(extension)
+        mod.send(:include, extension)
       end
     end
-  end
-
-  # Extend module InstanceMethods and ClassMethods with extension‘s one
-  # @param [Module] mod module to extend
-  # @param [Module] extension module, containing extensions
-  def self.extend_module(mod, extension)
-    mod.const_get(:ClassMethods).send(:include,
-                                      extension.const_get(:ClassMethods))
-    mod.const_get(:InstanceMethods).send(:include,
-                                         extension.const_get(:InstanceMethods))
   end
 end
 
