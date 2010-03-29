@@ -5,7 +5,7 @@ module Espresso
   module View
     extend Espresso::Concern
 
-    autoload :FormBuilder, 'espresso/lib/form_builder'
+    autoload :FormBuilder, 'espresso/view/form_builder'
 
     mattr_accessor :block_prefix
     self.block_prefix = 'b'
@@ -235,6 +235,11 @@ module Espresso
         end
       end
 
+      # Make body’s modifiers, based on controller_name and action_name
+      def body_modifiers
+        {:class => "m-#{controller_name} m-#{controller_name}_#{action_name}"}
+      end
+
     end
   end
 end
@@ -245,4 +250,12 @@ end
 
 if defined?(InheritedResources)
   require 'espresso/view/inherited_resources'
+end
+
+if defined?(HasScope)
+  require 'espresso/view/has_scope'
+end
+
+if defined?(Searchlogic)
+  require 'espresso/view/form_builder'
 end

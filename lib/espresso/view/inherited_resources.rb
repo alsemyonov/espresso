@@ -15,15 +15,16 @@ module Espresso
         link_to(t("helpers.action.#{klass_underscored}.new",
                   :default => [:'helpers.action.new', 'Add']),
                 path,
-                :class => self.class.espresso_block_classes('action', %w(new)))
+                :class => Espresso::View.block_classes('action', %w(new)))
       rescue
       end
+
       def link_to_show(object=nil)
         object ||= resource
         link_to(t("helpers.action.#{object.class.name.underscore}.show",
                   :default => [:'helpers.action.show', object.to_s]),
                 object,
-                :class => self.class.espresso_block_classes('action', %w(show))
+                :class => Espresso::View.block_classes('action', %w(show)))
       rescue
       end
 
@@ -37,7 +38,7 @@ module Espresso
         link_to(t("helpers.action.#{object.class.name.underscore}.edit",
                   :default => [:'helpers.action.edit', 'Edit']),
                 path,
-                :class => self.class.espresso_block_classes('action', %w(edit))
+                :class => Espresso::View.block_classes('action', %w(edit)))
       rescue
       end
 
@@ -52,7 +53,7 @@ module Espresso
         link_to(t("helpers.action.#{class_underscored}.edit",
                   :default => [:'helpers.action.destroy', 'Destroy']),
                 path,
-                :class => self.class.espresso_block_classes('action', %w(destroy)),
+                :class => Espresso::View.block_classes('action', %w(destroy)),
                 :method => :delete,
                 :confirm => t("helpers.action.#{class_underscored}.confirm_destroy",
                               :default => [:'helpers.action.confirm_destroy', 'are you sure?']))
@@ -62,8 +63,7 @@ module Espresso
         link_to(t("helpers.action.#{controller_name.singularize}.index",
                   :default => [:'helpers.action.index', '&larr; Back']),
                     collection_path,
-                    :class => 'b-action b-action_index'
-               )
+                    :class => 'b-action b-action_index')
       rescue
       end
 
