@@ -1,4 +1,5 @@
 require 'espresso/controller'
+require 'inherited_resources'
 require 'active_support/core_ext/class/inheritable_attributes'
 
 module Espresso
@@ -8,13 +9,8 @@ module Espresso
       :enhance => true
     }
 
-    class << self
-      def included_with_inherited_resources(base)
-        included_without_inherited_resources
-        base.send(:helper_method, :resource?, :collection?)
-      end
-
-      alias_method_chain :included, :inherited_resources
+    included do
+      helper_method :resource?, :collection?
     end
 
     module ClassMethods
@@ -23,9 +19,13 @@ module Espresso
       # @option options :enhance (true) whether to enhance resource controller with Espresso-provided helpers or not
       def resources(options = {})
         options.reverse_merge!(Espresso::Controller.default_resources_options)
-        inherit_resources
+
+        ::InheritedResources::Base.inherit_resources(self)
+        initialize_resources_class_accessors!
+        create_resources_url_helpers!
+
         if options[:enhance]
-          include Espresso::Controller::InheritedResources
+          include Espresso::Controller::InheritedResourcesModifications
         end
       end
     end
@@ -48,7 +48,7 @@ module Espresso
       end
     end
 
-    module InheritedResources
+    module InheritedResourcesModifications
       extend Espresso::Concern
 
       module ClassMethods

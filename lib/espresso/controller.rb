@@ -11,3 +11,7 @@ module Espresso
     end
   end
 end
+
+if defined?(InheritedResources)
+  require 'espresso/controller/inherited_resources'
+end
