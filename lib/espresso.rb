@@ -31,17 +31,19 @@ module Espresso
 end
 
 if defined?(ActiveRecord)
-  Espresso.uses :active_record, false
+  Espresso.uses :active_record
 end
 
 if defined?(ActionView)
-  Espresso.uses :action_view, false
+  Espresso.uses :action_view
 end
 
 if defined?(ActionController)
-  Espresso.uses :action_controller, false
+  Espresso.uses :action_controller
 end
 
 if defined?(Haml)
-  Espresso.uses :haml, false
+  Espresso.uses :haml
 end
+
+require 'espresso/deprecated'
