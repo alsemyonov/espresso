@@ -1,4 +1,5 @@
 require 'espresso/view'
+require 'action_view'
 require 'formtastic'
 
 module Espresso
