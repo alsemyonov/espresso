@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{espresso}
-  s.version = "0.1.12"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alexander Semyonov"]
-  s.date = %q{2010-03-25}
+  s.date = %q{2010-03-29}
   s.description = %q{Useful templates for controller and model functions}
   s.email = %q{rotuka@tokak.ru}
   s.extra_rdoc_files = [
@@ -25,20 +25,40 @@ Gem::Specification.new do |s|
      "espresso.gemspec",
      "init.rb",
      "lib/espresso.rb",
-     "lib/espresso/action_controller.rb",
-     "lib/espresso/action_view.rb",
-     "lib/espresso/action_view/form_builder.rb",
-     "lib/espresso/action_view/navigation.rb",
-     "lib/espresso/action_view/resources.rb",
-     "lib/espresso/action_view/scopes.rb",
-     "lib/espresso/action_view/stats.rb",
-     "lib/espresso/haml.rb",
-     "lib/espresso/locales/en.yml",
-     "lib/espresso/locales/ru.yml",
+     "lib/espresso/collection.rb",
+     "lib/espresso/collection/searchlogic.rb",
+     "lib/espresso/collection/will_paginate.rb",
+     "lib/espresso/concern.rb",
+     "lib/espresso/controller.rb",
+     "lib/espresso/controller/inherited_resources.rb",
+     "lib/espresso/deprecated.rb",
+     "lib/espresso/deprecated/resources.rb",
+     "lib/espresso/extensions/action_controller.rb",
+     "lib/espresso/extensions/action_view.rb",
+     "lib/espresso/extensions/active_record.rb",
+     "lib/espresso/extensions/all.rb",
+     "lib/espresso/extensions/haml.rb",
+     "lib/espresso/extensions/has_scope.rb",
+     "lib/espresso/extensions/inherited_resources.rb",
+     "lib/espresso/extensions/searchlogic.rb",
+     "lib/espresso/extensions/will_paginate.rb",
      "lib/espresso/model.rb",
-     "lib/espresso/resources.rb",
-     "lib/espresso/resources_helpers.rb",
+     "lib/espresso/model/inherited_resources.rb",
+     "lib/espresso/view.rb",
+     "lib/espresso/view/form_builder.rb",
+     "lib/espresso/view/has_scope.rb",
+     "lib/espresso/view/inherited_resources.rb",
+     "lib/espresso/view/searchlogic.rb",
+     "lib/espresso/view/will_paginate.rb",
+     "test/espresso_collection_test.rb",
+     "test/espresso_controller_test.rb",
+     "test/espresso_extensions_haml_test.rb",
+     "test/espresso_model_test.rb",
      "test/espresso_test.rb",
+     "test/espresso_view_has_scope_test.rb",
+     "test/espresso_view_test.rb",
+     "test/espresso_view_will_paginate_test.rb",
+     "test/example_model.rb",
      "test/test_helper.rb"
   ]
   s.homepage = %q{http://github.com/krasivotokak/espresso}
@@ -47,8 +67,16 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Rails extender to simplify rails development}
   s.test_files = [
-    "test/espresso_test.rb",
-     "test/test_helper.rb"
+    "test/espresso_extensions_haml_test.rb",
+     "test/example_model.rb",
+     "test/espresso_collection_test.rb",
+     "test/espresso_model_test.rb",
+     "test/espresso_view_test.rb",
+     "test/espresso_test.rb",
+     "test/test_helper.rb",
+     "test/espresso_controller_test.rb",
+     "test/espresso_view_has_scope_test.rb",
+     "test/espresso_view_will_paginate_test.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -56,24 +84,27 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<searchlogic>, [">= 2.2.3"])
-      s.add_runtime_dependency(%q<inherited_resources>, [">= 0.8.5"])
-      s.add_runtime_dependency(%q<will_paginate>, [">= 2.3.11"])
-      s.add_runtime_dependency(%q<formtastic>, [">= 0.9.7"])
+      s.add_runtime_dependency(%q<activesupport>, ["~> 2.3.5"])
+      s.add_runtime_dependency(%q<activerecord>, ["~> 2.3.5"])
+      s.add_runtime_dependency(%q<actionpack>, ["~> 2.3.5"])
+      s.add_runtime_dependency(%q<inherited_resources>, ["~> 1.0.5"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
+      s.add_development_dependency(%q<redgreen>, [">= 0"])
     else
-      s.add_dependency(%q<searchlogic>, [">= 2.2.3"])
-      s.add_dependency(%q<inherited_resources>, [">= 0.8.5"])
-      s.add_dependency(%q<will_paginate>, [">= 2.3.11"])
-      s.add_dependency(%q<formtastic>, [">= 0.9.7"])
+      s.add_dependency(%q<activesupport>, ["~> 2.3.5"])
+      s.add_dependency(%q<activerecord>, ["~> 2.3.5"])
+      s.add_dependency(%q<actionpack>, ["~> 2.3.5"])
+      s.add_dependency(%q<inherited_resources>, ["~> 1.0.5"])
       s.add_dependency(%q<shoulda>, [">= 0"])
+      s.add_dependency(%q<redgreen>, [">= 0"])
     end
   else
-    s.add_dependency(%q<searchlogic>, [">= 2.2.3"])
-    s.add_dependency(%q<inherited_resources>, [">= 0.8.5"])
-    s.add_dependency(%q<will_paginate>, [">= 2.3.11"])
-    s.add_dependency(%q<formtastic>, [">= 0.9.7"])
+    s.add_dependency(%q<activesupport>, ["~> 2.3.5"])
+    s.add_dependency(%q<activerecord>, ["~> 2.3.5"])
+    s.add_dependency(%q<actionpack>, ["~> 2.3.5"])
+    s.add_dependency(%q<inherited_resources>, ["~> 1.0.5"])
     s.add_dependency(%q<shoulda>, [">= 0"])
+    s.add_dependency(%q<redgreen>, [">= 0"])
   end
 end
 
