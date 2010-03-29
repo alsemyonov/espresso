@@ -4,7 +4,7 @@ module Espresso
   self.extensions << :collection
   # Represents collection of resources.
   # Used in Espresso::Controller InheritedResources extension
-  class Collection
+  class Collection < Array
     cattr_accessor :per_page
     self.per_page = 30
 
@@ -16,10 +16,10 @@ module Espresso
     # @param [Hash] options options for building the collection
     # @option options [Number] :page current page number
     # @option options [Number] :per_page per-page limit
-    # @option options [Number] :total total number of entries
     # @option options [Hash] :search conditions for searching
     def initialize(base, options = {})
       @base, @options = base, options
+      replace(collection)
     end
 
   protected

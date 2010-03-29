@@ -10,8 +10,8 @@ module Espresso
       unless @collection
         page     = options.delete(:page) { 1 }
         per_page = options.delete(:per_page) { Espresso::Collection.per_page }
-        total    = options.delete(:total)
-        @collection ||= base.paginate(page, per_page, total)
+        @collection ||= base.paginate(:page => page,
+                                      :per_page => per_page)
       end
       @collection
     end
