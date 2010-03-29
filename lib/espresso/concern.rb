@@ -17,13 +17,18 @@ module Espresso
         super
         base.extend const_get('ClassMethods') if const_defined?('ClassMethods')
         base.send :include, const_get('InstanceMethods') if const_defined?('InstanceMethods')
-        base.class_eval(&@_included_block) if instance_variable_defined?('@_included_block')
+        if instance_variable_defined?('@_included_blocks')
+          @_included_blocks.each do |included_block|
+            base.class_eval(&included_block)
+          end
+        end
       end
     end
 
     def included(base = nil, &block)
       if base.nil?
-        @_included_block = block
+        @_included_blocks ||= []
+        @_included_blocks << block
       else
         super
       end
