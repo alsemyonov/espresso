@@ -30,3 +30,7 @@ module Espresso
     end
   end
 end
+
+if defined?(InheritedResources)
+  require 'espresso/model/inherited_resources'
+end
