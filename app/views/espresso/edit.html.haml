@@ -1,0 +1,9 @@
+%article[resource]
+  %h1
+    = link_to_index
+    = page_title
+
+  - begin
+    = render 'form'
+  - rescue ActionView::MissingTemplate
+    = render 'espresso/form'
