@@ -3,7 +3,10 @@ require 'espresso/view'
 module Espresso::View
   module InstanceMethods
     def manage_list
-      content_tag(:table, :class => 'b-espresso-collection') do
+      content_tag(:table,
+                  :class => 'b-espresso-collection',
+                  :cellpadding => 0,
+                  :cellspacing => 0) do
         content_tag(:thead, manage_list_header) +
           content_tag(:tfoot, manage_list_footer) +
           content_tag(:tbody, manage_list_collection)
@@ -23,10 +26,18 @@ module Espresso::View
     end
 
     def manage_list_footer
-      content_tag(:tr,
-                  content_tag(:th,
-                              will_paginate(collection),
-                              :colspan => manage_columns.size))
+      ''.tap do |result|
+        result << content_tag(:tr,
+                    content_tag(:th,
+                      will_paginate(collection),
+                      :colspan => manage_columns.size))
+        if collection?
+          result << content_tag(:tr,
+                      content_tag(:th,
+                        link_to_new,
+                        :colspan => manage_columns.size))
+        end
+      end
     end
 
     def manage_list_collection
