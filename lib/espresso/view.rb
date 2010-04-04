@@ -131,11 +131,7 @@ module Espresso
                       elsif @page_title
                         @page_title
                       else
-                        default = if !Rails.env.development?
-                                    default_page_title
-                                  else
-                                    nil
-                                  end
+                        default = default_page_title
 
                         rsrc = if resource?
                                  if resource.new_record?
