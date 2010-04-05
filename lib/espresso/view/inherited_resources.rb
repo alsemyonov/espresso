@@ -13,6 +13,7 @@ module Espresso
                    [:new, klass_underscored]
                  end
         link_to(t("helpers.action.#{klass_underscored}.new",
+                  :resource_class => klass.human_name,
                   :default => [:'helpers.action.new', 'Add']),
                 path,
                 :class => Espresso::View.block_classes('action', %w(new)))
@@ -22,6 +23,7 @@ module Espresso
       def link_to_show(object=nil)
         object ||= resource
         link_to(t("helpers.action.#{object.class.name.underscore}.show",
+                  :resource => object.to_s,
                   :default => [:'helpers.action.show', object.to_s]),
                 object,
                 :class => Espresso::View.block_classes('action', %w(show)))
@@ -36,6 +38,7 @@ module Espresso
                    [:edit, object]
                  end
         link_to(t("helpers.action.#{object.class.name.underscore}.edit",
+                  :resource => object.to_s,
                   :default => [:'helpers.action.edit', 'Edit']),
                 path,
                 :class => Espresso::View.block_classes('action', %w(edit)))
@@ -51,6 +54,7 @@ module Espresso
                  end
         class_underscored = object.class.name.underscore
         link_to(t("helpers.action.#{class_underscored}.edit",
+                  :resource => object.to_s,
                   :default => [:'helpers.action.destroy', 'Destroy']),
                 path,
                 :class => Espresso::View.block_classes('action', %w(destroy)),
