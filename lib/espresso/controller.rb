@@ -14,15 +14,20 @@ module Espresso
       # @param [Hash, String] options options to render method
       # @option options [String, Symbol] :fallback (:espresso) fallback prefix or full path to fallback template
       def render_with_fallback(view_name, options = {})
-        if options === String
+        if options.is_a?(String)
           prefix, options = options, {}
         else
           options ||= {}
           prefix = options.delete(:fallback) { :espresso }
         end
-        render view_name, options
+        render(view_name, options)
       rescue ::ActionView::MissingTemplate
-        render (prefix.is_a?(Symbol) ? "#{prefix}/#{view_name}" : prefix), options
+        view_name = if prefix.is_a?(Symbol)
+                      "#{prefix}/#{view_name}"
+                    else
+                      prefix
+                    end
+        render(view_name, options)
       end
     end
   end
