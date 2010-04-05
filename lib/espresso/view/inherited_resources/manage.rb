@@ -50,7 +50,7 @@ module Espresso::View
     def manage_list_item(resource)
       content_tag(:tr) do
         manage_columns.inject('') do |result, column_name|
-          result << content_tag(:td) do
+          result << content_tag(:td, :class => column_name) do
             if resource_class.name_field.to_sym == column_name
               link_to(resource, edit_resource_path(resource))
             elsif column_name == :created_at
@@ -62,12 +62,26 @@ module Espresso::View
                   :updated => time(resource.updated_at))
               end
             else
-              value = resource.send(column_name)
+              association_name = column_name.to_s.gsub(/_id$/, '')
+              humanized_name = "human_#{association_name}"
+
+              # Finds appropriate values for associations and humanized fields
+              value = if resource.respond_to?(humanized_name)
+                        resource.send(humanized_name)
+                      elsif resource.respond_to?(association_name)
+                        resource.send(association_name)
+                      else
+                        resource.send(column_name)
+                      end
+
+              # Appropriate representations for some fields
               case value
               when DateTime, Time
                 time(value)
               when Date
                 date(value)
+              when ::ActiveRecord::Base
+                link_to(value, value)
               else
                 value.to_s
               end
@@ -85,7 +99,7 @@ module Espresso::View
                           else
                             resource_class.columns.collect do |column|
                               column.name.to_sym
-                            end - [:updated_at]
+                            end - [:id, :updated_at]
                           end
     end
   end
