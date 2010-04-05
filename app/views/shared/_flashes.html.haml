@@ -1,0 +1,3 @@
+%ul.b-flashes
+  - flash.each do |kind, message|
+    %li{:class => kind.to_s}= message
