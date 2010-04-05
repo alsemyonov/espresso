@@ -41,6 +41,9 @@ module Espresso
 
         def create
           super do |success, failure|
+            success.html do
+              redirect_to collection_path
+            end
             failure.html do
               render_with_fallback('new')
             end
@@ -49,6 +52,9 @@ module Espresso
 
         def update
           super do |success, failure|
+            success.html do
+              redirect_to collection_path
+            end
             failure.html do
               render_with_fallback('edit')
             end
