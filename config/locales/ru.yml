@@ -1,0 +1,7 @@
+ru:
+  espresso:
+    navigation:
+      new: Новый
+      edit: Редактирование
+    view:
+      created_and_updated: "{{created}}, последнее изменение {{updated}}"
