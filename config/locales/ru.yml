@@ -5,3 +5,10 @@ ru:
       edit: Редактирование
     view:
       created_and_updated: "{{created}}, последнее изменение {{updated}}"
+  helpers:
+    action:
+      new: Добавить
+      show: Просмотреть
+      edit: Редактировать
+      destroy: Удалить
+      confirm_destroy: Вы уверены, что хотите удалить?
