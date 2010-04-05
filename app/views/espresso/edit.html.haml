@@ -1,7 +1,7 @@
 %article[resource]
-  %h1
-    = link_to_index
-    = page_title
+  %header
+    = resource_breadcrumbs
+    %h1= page_title
 
   - begin
     = render 'form'

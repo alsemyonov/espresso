@@ -60,13 +60,29 @@ module Espresso
       end
 
       def link_to_index
-        link_to(t("helpers.action.#{controller_name.singularize}.index",
+        link_to(t("navigation.#{controller_name}.index",
                   :default => [:'helpers.action.index', '&larr; Back']),
                     collection_path,
                     :class => 'b-action b-action_index')
       rescue
       end
 
+      def resource_breadcrumbs(options = {})
+        content_tag(:ol, :class => 'b-hlist b-hlist_arrow') do
+          breadcrumbs = [].tap do |result|
+            if resource?
+              result << link_to_index
+              if action_name != 'show'
+                result << link_to_show
+              end
+            end
+          end
+          concat debug(breadcrumbs)
+          breadcrumbs.map do |link|
+            content_tag(:li, link)
+          end.join
+        end
+      end
     end
   end
 end
