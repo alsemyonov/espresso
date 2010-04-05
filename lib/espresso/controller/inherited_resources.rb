@@ -39,6 +39,7 @@ module Espresso
     end
 
     module InstanceMethods
+    protected
       # Does the action or view have a resource
       # @return [Boolean] having a resource
       def resource?
