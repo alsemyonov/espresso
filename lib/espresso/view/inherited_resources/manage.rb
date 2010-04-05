@@ -53,18 +53,21 @@ module Espresso::View
           result << content_tag(:td) do
             if resource_class.name_field.to_sym == column_name
               link_to(resource, edit_resource_path(resource))
+            elsif column_name == :created_at
+              if resource.created_at == resource.updated_at
+                time(resource.created_at)
+              else
+                t('espresso.view.created_and_updated',
+                  :created => time(resource.created_at),
+                  :updated => time(resource.updated_at))
+              end
             else
               value = resource.send(column_name)
               case value
               when DateTime, Time
-                content_tag(:time,
-                            l(value, :format => :long),
-                            :time => value.xmlschema)
+                time(value)
               when Date
-                value = value.to_date
-                content_tag(:time,
-                            l(value, :format => :long),
-                            :time => value.xmlschema)
+                date(value)
               else
                 value.to_s
               end
@@ -82,7 +85,7 @@ module Espresso::View
                           else
                             resource_class.columns.collect do |column|
                               column.name.to_sym
-                            end
+                            end - [:updated_at]
                           end
     end
   end
