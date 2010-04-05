@@ -4,7 +4,7 @@ ru:
       new: Новый
       edit: Редактирование
     view:
-      created_and_updated: "{{created}}, последнее изменение {{updated}}"
+      created_and_updated: "{{created}}—{{updated}}"
   helpers:
     action:
       new: Добавить
