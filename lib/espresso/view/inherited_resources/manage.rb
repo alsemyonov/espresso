@@ -15,7 +15,7 @@ module Espresso::View
 
     def manage_list_header
       content_tag(:tr) do
-        manage_columns.inject('') do |result, column_name|
+        manage_fields.inject('') do |result, column_name|
           result << content_tag(:th,
                                 order(collection.search,
                                       :by => column_name,
@@ -30,12 +30,12 @@ module Espresso::View
         result << content_tag(:tr,
                     content_tag(:th,
                       will_paginate(collection),
-                      :colspan => manage_columns.size))
+                      :colspan => manage_fields.size))
         if collection?
           result << content_tag(:tr,
                       content_tag(:th,
                         link_to_new,
-                        :colspan => manage_columns.size))
+                        :colspan => manage_fields.size))
         end
       end
     end
@@ -49,7 +49,7 @@ module Espresso::View
 
     def manage_list_item(resource)
       content_tag(:tr) do
-        manage_columns.inject('') do |result, column_name|
+        manage_fields.inject('') do |result, column_name|
           result << content_tag(:td,
                                 manage_column_representation(resource,
                                                              column_name),
@@ -59,28 +59,28 @@ module Espresso::View
       end
     end
 
-    def manage_column_representation(resource, column_name)
+    def manage_column_representation(object, column_name)
       if resource_class.name_field.to_sym == column_name
-        link_to(resource, edit_resource_path(resource))
+        link_to(object, edit_resource_path(object))
       elsif column_name == :created_at
-        if resource.created_at == resource.updated_at
-          time(resource.created_at)
+        if object.created_at == object.updated_at
+          time(object.created_at)
         else
           t('espresso.view.created_and_updated',
-            :created => time(resource.created_at),
-            :updated => time(resource.updated_at))
+            :created => time(object.created_at),
+            :updated => time(object.updated_at))
         end
       else
         association_name = column_name.to_s.gsub(/_id$/, '')
         humanized_name = "human_#{association_name}"
 
         # Finds appropriate values for associations and humanized fields
-        value = if resource.respond_to?(humanized_name)
-                  resource.send(humanized_name)
-                elsif resource.respond_to?(association_name)
-                  resource.send(association_name)
+        value = if object.respond_to?(humanized_name)
+                  object.send(humanized_name)
+                elsif object.respond_to?(association_name)
+                  object.send(association_name)
                 else
-                  resource.send(column_name)
+                  object.send(column_name)
                 end
 
         # Appropriate representations for some fields
@@ -101,15 +101,8 @@ module Espresso::View
       end
     end
 
-    def manage_columns
-      @manage_columns ||= if resource_class.respond_to?(:manage_columns) &&
-                              resource_class.manage_columns.any?
-                            resource_class.manage_columns
-                          else
-                            resource_class.columns.collect do |column|
-                              column.name.to_sym
-                            end - [:id, :updated_at, :type]
-                          end
+    def manage_fields
+      @manage_fields ||= manage_options.fields
     end
   end
 end
