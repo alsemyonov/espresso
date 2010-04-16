@@ -56,7 +56,6 @@ module Espresso
 
       def field_sets=(sets)
         @field_sets = sets.map do |set|
-          Rails.logger.warn(set.inspect)
           Espresso::Manage::FieldSet.to_field_set(set)
         end
       end
@@ -67,16 +66,10 @@ module Espresso
 
     protected
       def default_fields
-        fields = if model_class.respond_to?(:manage_fields) &&
-                    model_class.manage_fields.any?
-                   model_class.manage_fields
-                 else
-                   model_class.columns.collect do |column|
-                     column.name.to_sym
-                   end - [:id, :updated_at, :type]
-                 end
-        fields = [model_class.name_field] + (fields - [model_class.name_field])
-        fields
+        fields = model_class.columns.collect do |column|
+                   column.name.to_sym
+                 end - [:id, :updated_at, :type, main_field]
+        [main_field] + fields
       end
     end
 
