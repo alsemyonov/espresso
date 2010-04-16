@@ -161,12 +161,13 @@ module Espresso
       # Draws navigation list, using <li> with <a>
       # @param [Array<Symbol, String>] menu list of menu items (paths without /)
       # @return [String] Resulting menu without <ul> or <ol>
-      def navigation_list(menu)
+      def navigation_list(menu, prefix = nil)
         ''.tap do |result|
           menu.each do |item|
-            path = "/#{item}"
+            path = prefix ? "/#{prefix}/#{item}" : "/#{item}"
             uri = request.request_uri
-            title = t("navigation.#{item}.index", :default => item.to_s.camelize)
+            title = t(['navigation', prefix, item, 'index'].compact.join('.'),
+                      :default => item.to_s.camelize)
             result << content_tag(:li, :class => uri.starts_with?(path) ? 'selected' : nil) do
               link_to_unless_current(title, path) {
                 content_tag(:strong, title)
