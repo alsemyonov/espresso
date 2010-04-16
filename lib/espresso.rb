@@ -7,6 +7,7 @@ module Espresso
   autoload :Controller, 'espresso/controller'
   autoload :Collection, 'espresso/collection'
   autoload :Concern, 'espresso/concern'
+  autoload :Manage, 'espresso/manage'
 
   BASE_MODULES = %w(model view controller)
 
