@@ -1,7 +1,13 @@
 %article
   %header
     = resource_breadcrumbs
-    %h1
-      = page_title
+    %h1= page_title
 
-  = manage_list
+  %table.b-espresso-collection(cellpadding="0" cellspacing="0")
+    %thead= manage_list_header
+    %tfoot= manage_list_footer
+    %tbody
+      - begin
+        = render collection
+      - rescue ActionView::MissingTemplate
+        = render :partial => 'espresso/item', :collection => collection

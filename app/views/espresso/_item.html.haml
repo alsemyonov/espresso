@@ -1,0 +1,3 @@
+%tr[object]
+  - manage_fields.each do |field_name|
+    %td{:class => field_name}= manage_column_representation(object, field_name)
