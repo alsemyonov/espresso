@@ -60,6 +60,11 @@ module Espresso
             end
           end
         end
+
+      protected
+        def manage_options
+          self.class.manage_options
+        end
       end
 
       module ClassMethods

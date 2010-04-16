@@ -4,6 +4,9 @@ module Espresso
   module Controller
     extend Espresso::Concern
 
+    autoload :InheritedResourcesManage, 'espresso/controller/inherited_resources/manage'
+    autoload :InheritedResourcesModifications, 'espresso/controller/inherited_resources/modifications'
+
     module ClassMethods
     end
 

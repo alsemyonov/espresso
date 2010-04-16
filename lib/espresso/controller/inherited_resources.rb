@@ -1,4 +1,5 @@
 require 'espresso/controller'
+require 'espresso/manage'
 require 'inherited_resources'
 require 'active_support/core_ext/class/inheritable_attributes'
 
@@ -34,7 +35,17 @@ module Espresso
 
       def manage_resources(options = {})
         resources(options)
+
+        class_inheritable_accessor :manage_options
         include Espresso::Controller::InheritedResourcesManage
+
+        manage = Espresso::Manage::Options.new(resource_class)
+        if block_given?
+          yield(manage)
+        end
+        self.manage_options = manage
+
+        helper_method :manage_options
       end
     end
 
