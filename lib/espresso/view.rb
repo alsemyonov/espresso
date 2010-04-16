@@ -66,7 +66,7 @@ module Espresso
         format = options.delete(:format) { :long }
         content_tag(:time,
                     l(time, :format => format),
-                    options.merge(:time => time.xmlschema))
+                    options.merge(:datetime => time.xmlschema))
       end
 
       # Helper to write date in human- and machine-readable format
