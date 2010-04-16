@@ -1,0 +1,5 @@
+- if collection.total_pages > 1
+  %tr
+    %th{:colspan => manage_options.list_display.size}= will_paginate(collection)
+%tr
+  %th{:colspan => manage_options.list_display.size}= link_to_new
