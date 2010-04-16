@@ -177,6 +177,27 @@ module Espresso
         end
       end
 
+      # Render view if present, otherwise fallback to standard view in Espresso
+      # @param [String, Symbol] view_name name of a view template
+      # @param [Hash, String] options options to render method
+      # @option options [String, Symbol] :fallback (:espresso) fallback prefix or full path to fallback template
+      def render_with_fallback(view_name, options = {})
+        if options.is_a?(String)
+          prefix, options = options, {}
+        else
+          options ||= {}
+          prefix = options.delete(:fallback) { :espresso }
+        end
+        render(view_name, options)
+      rescue ::ActionView::MissingTemplate
+        view_name = if prefix.is_a?(Symbol)
+                      "#{prefix}/#{view_name}"
+                    else
+                      prefix
+                    end
+        render(view_name, options)
+      end
+
       # Set online statistics trackers
       # @param [Hash] options online statistics keys
       # @option options [Hash] :piwik Piwik code: id. site
