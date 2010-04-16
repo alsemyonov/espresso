@@ -3,64 +3,11 @@ require 'active_support/ordered_hash'
 
 module Espresso
   module Manage
-    class Field
-      attr_accessor :name, :options
-
-      def self.to_field(field)
-        if field.is_a?(Field)
-          field
-        else
-          Field.new(*Array(field))
-        end
-      end
-
-      def initialize(name, options = {})
-        self.name, self.options = name.to_sym, options
-      end
-
-      def real_options
-        options.inject({}) do |result, (name, value)|
-          result[name] = case value
-                         when Proc
-                           value.call
-                         else
-                           value
-                         end
-          result
-        end
-      end
-
-      def to_input
-        [name, real_options]
-      end
-    end
-
-    class FieldSet < Array
-      attr_accessor :options
-
-      def self.to_field_set(field_set)
-        if field_set.is_a?(Fieldset)
-          field_set
-        else
-          FieldSet.new(*Array(field_set))
-        end
-      end
-
-      def initialize(fields, options = {})
-        replace(fields.map) do |field|
-          Field.to_field(field)
-        end
-        self.options = options
-      end
-
-      def name
-        options[:name]
-      end
-    end
+    autoload :Field, 'espresso/manage/field'
+    autoload :FieldSet, 'espresso/manage/field_set'
 
     class BaseOptions
       attr_accessor :model_class, :main_field,
-        :fields, :field_sets,
         :filter_vertical, :filter_horizontal,
         :radio_fields, :prepopulated_fields
 
@@ -84,11 +31,11 @@ module Espresso
       end
 
       def fields
-        @fields ||= FieldSet.new(default_fields)
+        @fields ||= Espresso::Manage::FieldSet.new(*default_fields)
       end
 
       def fields=(new_fields)
-        @fields = FieldSet.new(new_fields)
+        @fields = Espresso::Manage::FieldSet.to_field_set(new_fields)
       end
 
       def exclude(*args)
@@ -99,12 +46,19 @@ module Espresso
         fields && fields.any?
       end
 
-      def field_sets
+      def field_sets(auto = true)
         unless @field_sets
           @field_sets = []
-          @field_sets << self.fields
+          @field_sets << self.fields if auto
         end
         @field_sets
+      end
+
+      def field_sets=(sets)
+        @field_sets = sets.map do |set|
+          Rails.logger.warn(set.inspect)
+          Espresso::Manage::FieldSet.to_field_set(set)
+        end
       end
 
       def field_sets?
@@ -127,25 +81,42 @@ module Espresso
     end
 
     class Options < BaseOptions
-      attr_accessor :list_display, :list_display_links, :list_filter,
+      attr_accessor :list_filter,
         :list_select_related, :list_per_page, :list_editable,
         :search_fields, :date_hierarchy, :save_as, :save_on_top,
         :ordering, :inlines
 
       def initialize(model_class = nil, options = {})
         super
-        self.list_display = [self.model_class.name_field]
-        self.list_display_links = []
-        self.list_filter = []
-        self.list_select_related = false
-        self.list_per_page = 100
-        self.list_editable = []
-        self.search_fields = []
-        self.date_hierarchy = nil
-        self.save_as = false
-        self.save_on_top = false
-        self.ordering = nil
-        self.inlines = []
+        @list_display = nil
+        @list_filter = []
+        @list_select_related = false
+        @list_per_page = 100
+        @list_editable = []
+        @search_fields = []
+        @date_hierarchy = nil
+        @save_as = false
+        @save_on_top = false
+        @ordering = nil
+        @inlines = []
+      end
+
+      def list_display
+        @list_display ||= self.fields.tap do |fields|
+          fields[main_field].link!
+        end
+      end
+
+      def list_display=(field_set)
+        @list_display = Espresso::Manage::FieldSet.to_field_set(field_set)
+      end
+
+      def list_display_links
+        list_display.links
+      end
+
+      def list_display_links=(fields)
+        list_display.links = fields
       end
     end
   end
