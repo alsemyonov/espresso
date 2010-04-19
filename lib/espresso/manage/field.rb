@@ -2,18 +2,21 @@ require 'espresso/manage'
 
 module Espresso::Manage
   class Field
-    attr_accessor :name, :options, :link
+    attr_accessor :name, :options, :link, :manage_options
 
-    def self.to_field(field)
+    def self.to_field(field, manage)
       if field.is_a?(Field)
         field
       else
-        Field.new(*Array(field))
+        name, options = field
+        manage.fields[name.to_sym] || Field.new(manage, name, options)
       end
     end
 
-    def initialize(name, options = {})
-      self.name, self.options = name.to_sym, options
+    def initialize(manage_options, name, options = {})
+      self.manage_options = manage_options
+      self.name = name.to_sym
+      self.options = options
       @link = false
     end
 
@@ -55,10 +58,11 @@ module Espresso::Manage
 
     alias_method :link?, :link
 
-    def value_method(model_class = nil)
+    def value_method
       unless @value_method
         association_name = name.to_s.gsub(/_id$/, '')
         humanized_name = "human_#{association_name}"
+        model_class = self.manage_options.model_class
 
         @value_method = if model_class.instance_methods.include?(humanized_name)
                           humanized_name
@@ -72,7 +76,7 @@ module Espresso::Manage
     end
 
     def value_for(object)
-      object.send(value_method(object.class))
+      object.send(value_method)
     end
   end
 end
