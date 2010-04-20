@@ -20,11 +20,15 @@ module Espresso::Manage
       @link = false
     end
 
-    def real_options
+    def real_options(view = nil)
       options.inject({}) do |result, (name, value)|
         result[name] = case value
                        when Proc
-                         value.call
+                         if value.arity == 1
+                           value.call(view)
+                         else
+                           value.call
+                         end
                        else
                          value
                        end
@@ -32,8 +36,8 @@ module Espresso::Manage
       end
     end
 
-    def to_input
-      [name, real_options]
+    def to_input(view = nil)
+      [name, real_options(view)]
     end
 
     def to_sym
