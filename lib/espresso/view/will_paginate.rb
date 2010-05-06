@@ -3,7 +3,7 @@ require 'will_paginate/view_helpers'
 
 module Espresso::View
   module InstanceMethods
-    include WillPaginate::ViewHelpers
+    include WillPaginate::ViewHelpers::ActionView
 
     def will_paginate_with_i18n(collection, options = {})
       will_paginate_without_i18n(collection,
