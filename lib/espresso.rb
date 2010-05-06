@@ -35,6 +35,10 @@ if defined?(ActiveRecord)
   Espresso.uses :active_record
 end
 
+if defined?(Mongoid)
+  Espresso.uses :mongoid
+end
+
 if defined?(ActionView)
   Espresso.uses :action_view
 end
