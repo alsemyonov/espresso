@@ -40,7 +40,7 @@ module Espresso
         # Find collection of resources, wrapped with Espresso::Collection
         # @return [Espresso::Collection] collection of resources
         def collection
-          get_collection_ivar || set_collection_ivar(end_of_association_chain.collection(params))
+          get_collection_ivar || set_collection_ivar(end_of_association_chain.espresso_collection(params))
         end
 
         # Build interpolation options for flash messages
