@@ -125,7 +125,7 @@ module Espresso
 
       def page_title(title = nil, strip = false)
         @page_title = if title
-                        title
+                        title.to_s
                       elsif @page_title
                         @page_title
                       else
