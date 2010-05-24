@@ -174,7 +174,7 @@ module Espresso
               }
             end
           end
-        end
+        end.html_safe
       end
 
       # Render view if present, otherwise fallback to standard view in Espresso
