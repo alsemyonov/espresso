@@ -6,6 +6,7 @@ ru:
     view:
       created_and_updated: "{{created}}—{{updated}}"
   helpers:
+    filter: Показать
     action:
       new: Добавить
       show: Просмотреть

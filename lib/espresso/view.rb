@@ -177,6 +177,22 @@ module Espresso
         end.html_safe
       end
 
+      def filter_links(filter)
+        content_tag(:div, :class => 'b-filter') do
+          content_tag(:span, "#{t('view.helpers.filter', :default => 'Filter')}: ") <<
+          content_tag(:ul, :class => 'b-hlist b-hlist_space') do
+            filter.inject(''.html_safe) do |result, link|
+              result << content_tag(:li,
+                                    link_to_unless_current(t(".#{link}",
+                                                             :default => link.humanize),
+                                                           {link => true},
+                                                           :class => 'ajax'),
+                                    :class => link)
+            end
+          end
+        end
+      end
+
       # Render view if present, otherwise fallback to standard view in Espresso
       # @param [String, Symbol] view_name name of a view template
       # @param [Hash, String] options options to render method
