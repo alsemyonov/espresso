@@ -81,10 +81,9 @@ module Espresso
               end
             end
           end
-          concat debug(breadcrumbs)
           breadcrumbs.map do |link|
             content_tag(:li, link)
-          end.join
+          end.join.html_safe
         end
       end
     end
