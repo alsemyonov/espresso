@@ -119,8 +119,8 @@ module Espresso
                  "#{t('espresso.navigation.new', :default => 'New')} #{(resource? ? resource_class : controller_name.classify.constantize).human_name}"
                when 'edit'
                  "#{t('espresso.navigation.edit', :default => 'Edit')} #{(resource? ? resource_class : controller_name.classify.constantize).human_name}"
-               end
-        %(<span class="translation_missing">#{text}</span>)
+               end.html_safe
+        %(<span class="translation_missing">#{text}</span>).html_safe
       end
 
       def page_title(title = nil, strip = false)

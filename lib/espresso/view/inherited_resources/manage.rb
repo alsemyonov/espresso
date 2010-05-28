@@ -8,11 +8,11 @@ module Espresso::View
 
       if field.name == :created_at
         value = if value == object.updated_at
-                  time(value)
+                  time(value, :format => :compact)
                 else
                   t('espresso.view.created_and_updated',
-                    :created => time(value),
-                    :updated => time(object.updated_at))
+                    :created => time(value, :format => :compact),
+                    :updated => time(object.updated_at, :format => :compact)).html_safe
                 end
       end
 
