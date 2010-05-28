@@ -13,3 +13,6 @@ ru:
       edit: Редактировать
       destroy: Удалить
       confirm_destroy: Вы уверены, что хотите удалить?
+  time:
+    formats:
+      compact: "%d.%m.%Y, %H:%M"
