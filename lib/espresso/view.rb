@@ -141,7 +141,7 @@ module Espresso
                                  nil
                                end
 
-                        t("navigation.#{controller_name}.#{view_name}",
+                        t("navigation.#{controller.controller_path.gsub(/\//, '.')}.#{view_name}",
                           :default => default,
                           :resource => rsrc
                          )

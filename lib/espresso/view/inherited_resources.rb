@@ -64,26 +64,23 @@ module Espresso
       end
 
       def link_to_index
-        link_to(t("navigation.#{controller_name}.index",
-                  :default => [:'helpers.action.index', '&larr; Back']),
-                    collection_path,
-                    :class => 'b-action b-action_index')
+        link_to(t("navigation.#{controller.controller_path.gsub(/\//, '.')}.index",
+                  :default => [:'helpers.action.index', '&larr; Back']).html_safe,
+                collection_path,
+                :class => 'b-action b-action_index')
       rescue
       end
 
       def resource_breadcrumbs(options = {})
         content_tag(:ol, :class => 'b-hlist b-hlist_arrow') do
-          breadcrumbs = [].tap do |result|
+          ''.html_safe.tap do |result|
             if resource?
-              result << link_to_index
+              result << content_tag(:li, link_to_index)
               if action_name != 'show'
-                result << link_to_show
+                result << content_tag(:li, link_to_show)
               end
             end
           end
-          breadcrumbs.map do |link|
-            content_tag(:li, link)
-          end.join.html_safe
         end
       end
     end
