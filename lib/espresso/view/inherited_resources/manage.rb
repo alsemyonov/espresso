@@ -22,7 +22,9 @@ module Espresso::View
               when Date
                 date(value)
               when ::ActiveRecord::Base
-                link_to(value, value)
+                link_to(value, overwrite_path(:controller => value.class.name.tableize,
+                                              :action => :edit,
+                                              :id => value.to_param))
               else
                 if respond_to?(:manage_field_typecast)
                   manage_field_typecast(value)
