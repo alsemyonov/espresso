@@ -144,7 +144,7 @@ module Espresso
                         t("navigation.#{controller.controller_path.gsub(/\//, '.')}.#{view_name}",
                           :default => default,
                           :resource => rsrc
-                         )
+                         ).html_safe
                       end
         if strip
           strip_tags(@page_title)
