@@ -289,5 +289,9 @@ if defined?(HasScope)
 end
 
 if defined?(Searchlogic)
+  require 'espresso/view/searchlogic'
+end
+
+if defined?(Formtastic)
   require 'espresso/view/form_builder'
 end
