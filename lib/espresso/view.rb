@@ -119,6 +119,12 @@ module Espresso
                  "#{t('espresso.navigation.new', :default => 'New')} #{(resource? ? resource_class : controller_name.classify.constantize).human_name}"
                when 'edit'
                  "#{t('espresso.navigation.edit', :default => 'Edit')} #{(resource? ? resource_class : controller_name.classify.constantize).human_name}"
+               else
+                 if resource?
+                   resource.to_s
+                 else
+                   "#{controller_name} — #{action_name}"
+                 end
                end.html_safe
         %(<span class="translation_missing">#{text}</span>).html_safe
       end
