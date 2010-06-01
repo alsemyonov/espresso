@@ -170,7 +170,7 @@ module Espresso
       def navigation_list(menu, prefix = nil)
         ''.tap do |result|
           menu.each do |item|
-            path = prefix ? "/#{prefix}/#{item}" : "/#{item}"
+            path = url_for(:controller => prefix ? "#{prefix}/#{item}" : item, :only_path => true)
             uri = request.request_uri
             title = t(['navigation', prefix, item, 'index'].compact.join('.'),
                       :default => item.to_s.camelize)
