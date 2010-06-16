@@ -4,13 +4,17 @@ require 'espresso/collection'
 module Espresso
   module Model
     included do
-      if respond_to?(:scope) && respond_to?(:where)
-        scope :for_collection, where('1 = 1')
-        scope :for_feed, order('created_at DESC')
-      elsif respond_to?(:named_scope)
-        named_scope :for_collection, :conditions => '1 = 1'
-        named_scope :for_feed, :order => 'created_at DESC'
-      else
+      begin
+        if respond_to?(:scope) && respond_to?(:where) && respond_to?(:order)
+          scope :for_collection, where('1 = 1')
+          scope :for_feed, order('created_at DESC')
+        elsif respond_to?(:named_scope)
+          named_scope :for_collection, :conditions => '1 = 1'
+          named_scope :for_feed, :order => 'created_at DESC'
+        else
+          extend DummyScopes
+        end
+      rescue
         extend DummyScopes
       end
     end
