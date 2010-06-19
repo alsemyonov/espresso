@@ -119,7 +119,6 @@ module Espresso
                  "#{t('espresso.navigation.new', :default => 'New')} #{(resource? ? resource_class : controller_name.classify.constantize).model_name.human}"
                when 'edit'
                  "#{t('espresso.navigation.edit', :default => 'Edit')} #{(resource? ? resource_class : controller_name.classify.constantize).model_name.human}"
-               end
                else
                  if resource?
                    resource.to_s
