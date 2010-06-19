@@ -172,7 +172,7 @@ module Espresso
         ''.tap do |result|
           menu.each do |item|
             path = url_for(:controller => prefix ? "#{prefix}/#{item}" : item, :only_path => true)
-            uri = request.request_uri
+            uri = request.fullpath
             title = t(['navigation', prefix, item, 'index'].compact.join('.'),
                       :default => item.to_s.camelize)
             result << content_tag(:li, :class => uri.starts_with?(path) ? 'selected' : nil) do
