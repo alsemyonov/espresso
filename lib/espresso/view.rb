@@ -116,9 +116,9 @@ module Espresso
                    controller_name.camelize
                  end
                when 'new'
-                 "#{t('espresso.navigation.new', :default => 'New')} #{(resource? ? resource_class : controller_name.classify.constantize).human_name}"
+                 "#{t('espresso.navigation.new', :default => 'New')} #{(resource? ? resource_class : controller_name.classify.constantize).model_name.human}"
                when 'edit'
-                 "#{t('espresso.navigation.edit', :default => 'Edit')} #{(resource? ? resource_class : controller_name.classify.constantize).human_name}"
+                 "#{t('espresso.navigation.edit', :default => 'Edit')} #{(resource? ? resource_class : controller_name.classify.constantize).model_name.human}"
                end
         %(<span class="translation_missing">#{text}</span>)
       end
@@ -133,7 +133,7 @@ module Espresso
 
                         rsrc = if resource?
                                  if resource.new_record?
-                                   resource_class.human_name
+                                   resource_class.model_name.human
                                  else
                                    link_to(resource, resource_path)
                                  end
