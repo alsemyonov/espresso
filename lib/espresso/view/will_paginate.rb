@@ -21,7 +21,7 @@ module Espresso::View
       prefix = options.delete(:prefix)
       prefix = prefix ? " b-list_#{prefix}_#{collection_name}" : nil
       start = (collection.respond_to?(:offset) ? collection.offset : 0) + 1
-      ''.tap do |result|
+      ''.html_safe.tap do |result|
         result << content_tag(:ol,
                               render(collection),
                               :class => "b-list b-list_#{collection_name}#{prefix}",

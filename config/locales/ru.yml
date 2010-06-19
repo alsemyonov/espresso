@@ -6,9 +6,13 @@ ru:
     view:
       created_and_updated: "{{created}}—{{updated}}"
   helpers:
+    filter: Показать
     action:
       new: Добавить
       show: Просмотреть
       edit: Редактировать
       destroy: Удалить
       confirm_destroy: Вы уверены, что хотите удалить?
+  time:
+    formats:
+      compact: "%d.%m.%Y, %H:%M"

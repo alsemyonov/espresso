@@ -8,11 +8,11 @@ module Espresso::View
 
       if field.name == :created_at
         value = if value == object.updated_at
-                  time(value)
+                  time(value, :format => :compact)
                 else
                   t('espresso.view.created_and_updated',
-                    :created => time(value),
-                    :updated => time(object.updated_at))
+                    :created => time(value, :format => :compact),
+                    :updated => time(object.updated_at, :format => :compact)).html_safe
                 end
       end
 
@@ -22,7 +22,8 @@ module Espresso::View
               when Date
                 date(value)
               when ::ActiveRecord::Base
-                link_to(value, value)
+                link_to(value, url_for(:controller => value.class.name.tableize,
+                                       :action => :edit, :id => value.to_param))
               else
                 if respond_to?(:manage_field_typecast)
                   manage_field_typecast(value)

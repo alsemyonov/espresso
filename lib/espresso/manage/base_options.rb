@@ -2,6 +2,8 @@ require 'espresso/manage'
 
 module Espresso::Manage
   class BaseOptions
+    STUFF_FIELDS = [:id, :updated_at, :type]
+
     attr_accessor :model_class, :main_field,
       :filter_vertical, :filter_horizontal,
       :radio_fields, :prepopulated_fields
@@ -17,8 +19,9 @@ module Espresso::Manage
       self.model_class = model_class
       self.main_field = model_class.name_field if model_class.respond_to?(:name_field)
       fields = model_class.columns.collect do |column|
-                 column.name.to_sym
-               end - [:id, :updated_at, :type, main_field]
+                 column_name = column.name
+                 column_name.gsub(/_id$/, '').to_sym
+               end - STUFF_FIELDS - [main_field]
       @fields = FieldSet.new(self)
       ([main_field] + fields).each do |field_name|
         @fields << Field.new(self, field_name)

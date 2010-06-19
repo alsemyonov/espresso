@@ -120,12 +120,19 @@ module Espresso
                when 'edit'
                  "#{t('espresso.navigation.edit', :default => 'Edit')} #{(resource? ? resource_class : controller_name.classify.constantize).model_name.human}"
                end
-        %(<span class="translation_missing">#{text}</span>)
+               else
+                 if resource?
+                   resource.to_s
+                 else
+                   "#{controller_name} — #{action_name}"
+                 end
+               end.html_safe
+        %(<span class="translation_missing">#{text}</span>).html_safe
       end
 
       def page_title(title = nil, strip = false)
         @page_title = if title
-                        title
+                        title.to_s
                       elsif @page_title
                         @page_title
                       else
@@ -141,10 +148,10 @@ module Espresso
                                  nil
                                end
 
-                        t("navigation.#{controller_name}.#{view_name}",
+                        t("navigation.#{controller.controller_path.gsub(/\//, '.')}.#{view_name}",
                           :default => default,
                           :resource => rsrc
-                         )
+                         ).html_safe
                       end
         if strip
           strip_tags(@page_title)
@@ -164,7 +171,7 @@ module Espresso
       def navigation_list(menu, prefix = nil)
         ''.tap do |result|
           menu.each do |item|
-            path = prefix ? "/#{prefix}/#{item}" : "/#{item}"
+            path = url_for(:controller => prefix ? "#{prefix}/#{item}" : item, :only_path => true)
             uri = request.request_uri
             title = t(['navigation', prefix, item, 'index'].compact.join('.'),
                       :default => item.to_s.camelize)
@@ -172,6 +179,22 @@ module Espresso
               link_to_unless_current(title, path) {
                 content_tag(:strong, title)
               }
+            end
+          end
+        end.html_safe
+      end
+
+      def filter_links(filter)
+        content_tag(:div, :class => 'b-filter') do
+          content_tag(:span, "#{t('view.helpers.filter', :default => 'Filter')}: ") <<
+          content_tag(:ul, :class => 'b-hlist b-hlist_space') do
+            filter.inject(''.html_safe) do |result, link|
+              result << content_tag(:li,
+                                    link_to_unless_current(t(".#{link}",
+                                                             :default => link.humanize),
+                                                           {link => true},
+                                                           :class => 'ajax'),
+                                    :class => link)
             end
           end
         end
@@ -273,5 +296,9 @@ if defined?(HasScope)
 end
 
 if defined?(Searchlogic)
+  require 'espresso/view/searchlogic'
+end
+
+if defined?(Formtastic)
   require 'espresso/view/form_builder'
 end
