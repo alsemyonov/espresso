@@ -23,7 +23,7 @@ module Espresso
 
       def submit_default_value
         model = if object.class.respond_to?(:model_name)
-                  object.class.human_name
+                  object.class.model_name.human
                 else
                   @object_name.to_s.humanize
                 end
