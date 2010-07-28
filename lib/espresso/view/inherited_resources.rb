@@ -13,7 +13,7 @@ module Espresso
                    [:new, klass_underscored]
                  end
         link_to(t("helpers.action.#{klass_underscored}.new",
-                  :resource_class => klass.human_name,
+                  :resource_class => klass.model_name.human,
                   :default => [:'helpers.action.new', 'Add']),
                 path,
                 :class => Espresso::View.block_classes('action', %w(new)))

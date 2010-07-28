@@ -8,7 +8,7 @@ ru:
   helpers:
     filter: Показать
     action:
-      new: Добавить
+      new: Добавить {{resource_class}}
       show: Просмотреть
       edit: Редактировать
       destroy: Удалить
