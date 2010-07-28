@@ -1,3 +1,7 @@
 %tr
-  - manage_options.list_display.each do |field|
-    %th= order(collection.search, :by => field.name, :as => resource_class.human_attribute_name(field.name))
+  - if collection.search.present?
+    - manage_options.list_display.each do |field|
+      %th= order(collection.search, :by => field.name, :as => resource_class.human_attribute_name(field.name))
+  - else
+    - manage_options.list_display.each do |field|
+      %th= resource_class.human_attribute_name(field.name)
