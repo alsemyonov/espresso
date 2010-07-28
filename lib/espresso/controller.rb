@@ -30,7 +30,7 @@ module Espresso
                     else
                       prefix
                     end
-        render(view_name, options)
+        render(view_name, options.merge(:prefix => ''))
       end
     end
   end
