@@ -4,7 +4,7 @@
   - if manage_options.field_sets?
     - manage_options.field_sets.each do |field_set|
       = f.inputs field_set.options do
-        = field_set.each do |field|
+        - field_set.each do |field|
           = f.input *field.to_input(self)
   - else
     = f.inputs
