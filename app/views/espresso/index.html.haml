@@ -10,4 +10,4 @@
       - begin
         = render collection
       - rescue ActionView::MissingTemplate
-        = render :partial => 'espresso/item', :collection => collection
+        = render :partial => 'espresso/item', :collection => collection, :as => :object
