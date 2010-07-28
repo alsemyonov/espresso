@@ -1,15 +1,15 @@
-- semantic_form_for(resource,
+= semantic_form_for(resource,
   :url => resource.new_record? ? collection_path : resource_path(resource),
   :html => {:class => 'b-espresso-form', :multipart => true}) do |f|
   - if manage_options.field_sets?
     - manage_options.field_sets.each do |field_set|
-      - f.inputs field_set.options do
-        - field_set.each do |field|
+      = f.inputs field_set.options do
+        = field_set.each do |field|
           = f.input *field.to_input(self)
   - else
     = f.inputs
 
-  - f.buttons do
+  = f.buttons do
     = f.commit_button
     - unless resource.new_record?
       %li.commit.delete= link_to_destroy(resource)
