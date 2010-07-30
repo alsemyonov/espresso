@@ -111,7 +111,7 @@ module Espresso
         text = case view_name
                when 'index'
                  if collection?
-                   resource_class.name
+                   resource_class.name.pluralize
                  else
                    controller_name.camelize
                  end
