@@ -1,3 +1,4 @@
+# - coding: utf-8 -
 require 'espresso/view'
 require 'will_paginate/view_helpers'
 

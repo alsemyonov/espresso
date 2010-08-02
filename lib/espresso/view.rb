@@ -1,3 +1,4 @@
+# - coding: utf-8 -
 require 'espresso'
 require 'active_support/core_ext/module'
 
