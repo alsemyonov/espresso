@@ -18,10 +18,7 @@ module Espresso::Manage
 
       self.model_class = model_class
       self.main_field = model_class.name_field if model_class.respond_to?(:name_field)
-      fields = model_class.columns.collect do |column|
-                 column_name = column.name
-                 column_name.gsub(/_id$/, '').to_sym
-               end - STUFF_FIELDS - [main_field]
+      fields = model_class.field_names - STUFF_FIELDS - [main_field]
       @fields = FieldSet.new(self)
       ([main_field] + fields).each do |field_name|
         @fields << Field.new(self, field_name)
