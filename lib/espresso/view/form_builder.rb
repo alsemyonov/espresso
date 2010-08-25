@@ -15,7 +15,7 @@ module Espresso
         if render_inline_errors?
           errors = Array(@object.errors[method.to_sym]) +
             Array(@object.errors[:"#{method}_id"])
-          send(:"error_#{@@inline_errors}", [*errors]) if errors.present?
+          send(:"error_#{self.class.inline_errors}", [*errors]) if errors.present?
         else
           nil
         end
@@ -38,13 +38,33 @@ module Espresso
 
       def commit_button(*args)
         options = args.extract_options!
+        text = options.delete(:label) { args.shift }
 
-        button_html = options.delete(:button_html) || {}
+        if @object && @object.respond_to?(:new_record?)
+          key = @object.new_record? ? :create : :update
+
+          if @object.class.model_name.respond_to?(:human)
+            object_name = @object.class.model_name.human
+          else
+            object_human_name = @object.class.human_name
+            crappy_human_name = @object.class.name.humanize
+            decent_human_name = @object.class.name.underscore.humanize
+            object_name = (object_human_name == crappy_human_name) ? decent_human_name : object_human_name
+          end
+        else
+          key = :submit
+          object_name = @object_name.to_s.send(self.class.label_str_method)
+        end
+
+        text = (self.localized_string(key, text, :action, :model => object_name) ||
+                ::Formtastic::I18n.t(key, :model => object_name)) unless text.is_a?(::String)
+
+        button_html = options.delete(:button_html) do {} end
         button_html.merge!(:class => [button_html[:class], form_action].compact.join(' '))
         element_class = ['commit', options.delete(:class)].compact.join(' ')
-        accesskey = (options.delete(:accesskey) || @@default_commit_button_accesskey) unless button_html.has_key?(:accesskey)
-        button_html = button_html.merge(:accesskey => accesskey) if accesskey  
-        template.content_tag(:li, self.submit(options.delete(:label), button_html), :class => element_class)
+        accesskey = (options.delete(:accesskey) || self.class.default_commit_button_accesskey) unless button_html.has_key?(:accesskey)
+        button_html = button_html.merge(:accesskey => accesskey) if accesskey
+        template.content_tag(:li, Formtastic::Util.html_safe(self.submit(text, button_html)), :class => element_class)
       end
 
     protected
