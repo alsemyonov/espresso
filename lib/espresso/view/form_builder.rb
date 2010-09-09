@@ -36,35 +36,38 @@ module Espresso
         I18n.t(defaults.shift, :model => model, :default => defaults)
       end
 
-      def commit_button(*args)
-        options = args.extract_options!
-        text = options.delete(:label) { args.shift }
+      def simple_date_input(method, options)
+        html_options = options.delete(:input_html) { {} }
+        self.label(method, options_for_label(options)) <<
+        self.date_select(method, html_options)
+      end
 
-        if @object && @object.respond_to?(:new_record?)
-          key = @object.new_record? ? :create : :update
+      def phone_input(method, options)
+        basic_input_helper(:phone_field, :string, method, options)
+      end
+      alias_method :telephone_input, :phone_input
 
-          if @object.class.model_name.respond_to?(:human)
-            object_name = @object.class.model_name.human
-          else
-            object_human_name = @object.class.human_name
-            crappy_human_name = @object.class.name.humanize
-            decent_human_name = @object.class.name.underscore.humanize
-            object_name = (object_human_name == crappy_human_name) ? decent_human_name : object_human_name
+      def numeric_input(method, options)
+        basic_input_helper(:number_field, :numeric, method, options)
+      end
+
+      def email_input(method, options)
+        basic_input_helper(:email_field, :string, method, options)
+      end
+
+      def range_input(method, options)
+        html_options = options.delete(:input_html) { {} }
+        html_options[:step] ||= options.delete(:step) { 1 }
+        data_options = options.keys.find_all {|a| a.to_s =~ /^data-/ }
+        (data_options + [:min, :max, :in]).each do |option|
+          if options.key?(option)
+            html_options[option] = options.delete(option)
           end
-        else
-          key = :submit
-          object_name = @object_name.to_s.send(self.class.label_str_method)
         end
+        html_options = default_string_options(method, :numeric).merge(html_options)
 
-        text = (self.localized_string(key, text, :action, :model => object_name) ||
-                ::Formtastic::I18n.t(key, :model => object_name)) unless text.is_a?(::String)
-
-        button_html = options.delete(:button_html) do {} end
-        button_html.merge!(:class => [button_html[:class], form_action].compact.join(' '))
-        element_class = ['commit', options.delete(:class)].compact.join(' ')
-        accesskey = (options.delete(:accesskey) || self.class.default_commit_button_accesskey) unless button_html.has_key?(:accesskey)
-        button_html = button_html.merge(:accesskey => accesskey) if accesskey
-        template.content_tag(:li, Formtastic::Util.html_safe(self.submit(text, button_html)), :class => element_class)
+        self.label(method, options_for_label(options)) <<
+          template.content_tag(:div, range_field(method, html_options), :class => 'b-range')
       end
 
     protected
