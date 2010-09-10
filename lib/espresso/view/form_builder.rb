@@ -42,6 +42,12 @@ module Espresso
         self.date_select(method, html_options)
       end
 
+      def simple_datetime_input(method, options)
+        html_options = options.delete(:input_html) { {} }
+        self.label(method, options_for_label(options)) <<
+        self.datetime_select(method, html_options)
+      end
+
       def phone_input(method, options)
         basic_input_helper(:phone_field, :string, method, options)
       end
