@@ -54,7 +54,7 @@ module Espresso
       # Does the action or view have a resource
       # @return [Boolean] having a resource
       def resource?
-        resource
+        params.key?(:id) && resource
       rescue
         false
       end
@@ -62,7 +62,7 @@ module Espresso
       # Does the action or view have a collection of objects
       # @return [Boolean] Having a collection
       def collection?
-        collection
+        !params.key?(:id) && collection
       rescue
         false
       end

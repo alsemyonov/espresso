@@ -128,6 +128,8 @@ module Espresso
                  end
                end.html_safe
         %(<span class="translation_missing">#{text}</span>).html_safe
+      rescue
+        nil
       end
 
       def page_title(title = nil, strip = false)
