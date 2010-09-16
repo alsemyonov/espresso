@@ -62,8 +62,8 @@ module Espresso
       end
 
       def range_input(method, options)
-        html_options = options.delete(:input_html) { {} }
-        html_options[:step] ||= options.delete(:step) { 1 }
+        html_options = options.delete(:input_html)    { {} }
+        html_options[:step] ||= options.delete(:step) { 1  }
         data_options = options.keys.find_all {|a| a.to_s =~ /^data-/ }
         (data_options + [:min, :max, :in]).each do |option|
           if options.key?(option)
@@ -74,6 +74,24 @@ module Espresso
 
         self.label(method, options_for_label(options)) <<
           template.content_tag(:div, range_field(method, html_options), :class => 'b-range')
+      end
+
+      def dual_range_input(method, options)
+        html_options = options.delete(:input_html)    { {} }
+        html_options[:step] ||= options.delete(:step) { 1  }
+        data_options = options.keys.find_all {|a| a.to_s =~ /^data-/ }
+        (data_options + [:min, :max, :in]).each do |option|
+          if options.key?(option)
+            html_options[option] = options.delete(option)
+          end
+        end
+        html_options = default_string_options(method, :numeric).merge(html_options)
+
+        self.label(method, options_for_label(options)) <<
+          template.content_tag(:span,
+                               range_field("#{method}_begin", html_options) +
+                                 range_field("#{method}_end", html_options),
+                               :class => 'b-range b-range_dual')
       end
 
     protected
