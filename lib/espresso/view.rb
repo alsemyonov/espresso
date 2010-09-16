@@ -164,7 +164,7 @@ module Espresso
 
       def head_title(default = false, separator = ' | ')
         default ||= t('application.meta.title')
-        [page_title(nil, true), default].compact.join(separator)
+        [page_title(nil, true), default].compact.uniq.join(separator)
       end
 
       # Draws navigation list, using <li> with <a>
