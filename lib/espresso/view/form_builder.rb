@@ -61,6 +61,10 @@ module Espresso
         basic_input_helper(:email_field, :string, method, options)
       end
 
+      def url_input(method, options)
+        basic_input_helper(:url_field, :string, method, options)
+      end
+
       def range_input(method, options)
         html_options = options.delete(:input_html)    { {} }
         html_options[:step] ||= options.delete(:step) { 1  }
