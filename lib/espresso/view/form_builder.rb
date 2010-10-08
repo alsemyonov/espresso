@@ -58,6 +58,8 @@ module Espresso
       end
 
       def email_input(method, options)
+        options[:input_html] ||= {}
+        options[:input_html][:autocapitalize] ||= 'off'
         basic_input_helper(:email_field, :string, method, options)
       end
 
