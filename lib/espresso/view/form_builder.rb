@@ -64,6 +64,8 @@ module Espresso
       end
 
       def url_input(method, options)
+        options[:input_html] ||= {}
+        options[:input_html][:autocapitalize] ||= 'off'
         basic_input_helper(:url_field, :string, method, options)
       end
 
