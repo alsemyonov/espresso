@@ -133,6 +133,11 @@ module Espresso
       end
 
       def page_title(title = nil, strip = false)
+        if title.is_a?(Hash)
+          options, title = title, nil
+        else
+          options = {}
+        end
         @page_title = if title
                         title.to_s
                       elsif @page_title
@@ -151,8 +156,10 @@ module Espresso
                                end
 
                         t("navigation.#{controller.controller_path.gsub(/\//, '.')}.#{view_name}",
-                          :default => default,
-                          :resource => rsrc
+                          options.reverse_merge(
+                            :default => default,
+                            :resource => rsrc
+                          )
                          ).html_safe
                       end
         if strip
