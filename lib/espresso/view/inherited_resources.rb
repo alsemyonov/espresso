@@ -55,12 +55,32 @@ module Espresso
         class_underscored = object.class.name.underscore
         link_to(t("helpers.action.#{class_underscored}.edit",
                   :resource => object.to_s,
-                  :default => [:'helpers.action.destroy', 'Destroy']),
+                  :default => [:'helpers.action.delete', 'Delete']),
                 path,
-                :class => Espresso::View.block_classes('action', %w(destroy)),
+                :class => Espresso::View.block_classes('action', %w(delete)),
                 :method => :delete,
-                :confirm => t("helpers.action.#{class_underscored}.confirm_destroy",
-                              :default => [:'helpers.action.confirm_destroy', 'are you sure?']))
+                :confirm => t("helpers.action.#{class_underscored}.confirm_delete",
+                              :default => [:'helpers.action.confirm_delete', 'are you sure?']))
+      end
+
+      def button_to_delete(object=nil, path=nil)
+        object ||= resource
+        path ||= if object == resource
+                   resource_path
+                 else
+                   object
+                 end
+        class_underscored = object.class.name.underscore
+        button_to(t("helpers.action.#{class_underscored}.edit",
+                    :resource => object.to_s,
+                    :default => [:'helpers.action.delete', 'Delete']),
+                  path,
+                  'data-role' => 'button',
+                  'data-icon' => 'delete',
+                  :class => Espresso::View.block_classes('action', %w(delete)),
+                  :method => :delete,
+                  :confirm => t("helpers.action.#{class_underscored}.confirm_delete",
+                                :default => [:'helpers.action.confirm_delete', 'Are you sure?']))
       end
 
       def link_to_index
