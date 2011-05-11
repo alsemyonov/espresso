@@ -1,27 +1,5 @@
-require 'rubygems'
-require 'rake'
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = 'espresso'
-    gem.summary = %Q{Rails extender to simplify rails development}
-    gem.description = %Q{Useful templates for controller and model functions}
-    gem.email = 'rotuka@tokak.ru'
-    gem.homepage = 'http://github.com/krasivotokak/espresso'
-    gem.authors = ['Alexander Semyonov']
-    gem.add_dependency('activesupport', '~> 2.3.5')
-    gem.add_dependency('activerecord', '~> 2.3.5')
-    gem.add_dependency('actionpack', '~> 2.3.5')
-    gem.add_dependency('inherited_resources', '~> 1.0.5')
-    gem.add_development_dependency('shoulda')
-    gem.add_development_dependency('redgreen')
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
-end
+require 'bundler'
+Bundler::GemHelper.install_tasks
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
@@ -72,7 +50,8 @@ task :default => :test
 
 begin
   require 'yard'
-  YARD::Rake::YardocTask.new do |yard|
+  desc 'Generate documentation'
+  YARD::Rake::YardocTask.new(:doc) do |yard|
     yard.options << '--no-private'
   end
 rescue LoadError
@@ -81,8 +60,7 @@ rescue LoadError
   end
 end
 
-desc 'Generate documentation'
 task :doc => :yard
 
-desc "Bump patch version and release to github and gemcutter"
-task :bump => %w(version:bump:patch release gemcutter:release install)
+desc "Release to github and rubygems, install"
+task :bump => %w(release install)
