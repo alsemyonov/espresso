@@ -1,11 +1,12 @@
-require 'active_support/core_ext/class'
+require 'active_support/core_ext/class/attribute'
 
 module Espresso
   self.extensions << :collection
+
   # Represents collection of resources.
   # Used in Espresso::Controller InheritedResources extension
   class Collection < Array
-    cattr_accessor :per_page
+    class_attribute :per_page
     self.per_page = 30
 
     attr_accessor :base, :options, :collection, :search
@@ -33,10 +34,6 @@ module Espresso
       collection.send(method_name, *args)
     end
   end
-end
-
-if defined? Searchlogic
-  require 'espresso/collection/searchlogic'
 end
 
 if defined? WillPaginate
