@@ -1,5 +1,5 @@
 require 'espresso'
-require 'active_support/core_ext/class/inheritable_attributes'
+require 'active_support/core_ext/class/attribute'
 require 'active_support/core_ext/string'
 
 module Espresso
@@ -7,7 +7,7 @@ module Espresso
     extend Espresso::Concern
 
     included do
-      class_inheritable_accessor :name_field, :model_modifiers
+      class_attribute :name_field, :model_modifiers
 
       self.name_field = :name
       self.model_modifiers = []

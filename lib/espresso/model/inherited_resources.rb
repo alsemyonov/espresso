@@ -1,21 +1,15 @@
 require 'espresso/model'
 require 'espresso/collection'
+require 'inherited_resources'
 
 module Espresso
   module Model
     included do
-      begin
-        if respond_to?(:scope) && respond_to?(:where) && respond_to?(:order)
-          scope :for_collection, where('1 = 1')
-          scope :for_feed, order('created_at DESC')
-        elsif respond_to?(:named_scope)
-          named_scope :for_collection, :conditions => '1 = 1'
-          named_scope :for_feed, :order => 'created_at DESC'
-        else
-          extend DummyScopes
-        end
-      rescue
-        extend DummyScopes
+      alias for_collection scoped
+      if respond_to?(:desc)
+        scope :for_feed, desc(:created_at)
+      else
+        scope :for_feed, order('created_at DESC')
       end
     end
 
@@ -25,16 +19,6 @@ module Espresso
       # @return [Espresso::Collection, Array] collection of resources
       def espresso_collection(options = {})
         Espresso::Collection.new(self.for_collection, options)
-      end
-    end
-
-    module DummyScopes
-      def for_collection
-        self
-      end
-
-      def for_feed
-        self
       end
     end
   end

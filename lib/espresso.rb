@@ -1,13 +1,12 @@
-$KCODE = 'u'
 require 'active_support/core_ext/module'
 
 module Espresso
-  autoload :Model, 'espresso/model'
-  autoload :View, 'espresso/view'
+  autoload :Model,      'espresso/model'
+  autoload :View,       'espresso/view'
   autoload :Controller, 'espresso/controller'
   autoload :Collection, 'espresso/collection'
-  autoload :Concern, 'espresso/concern'
-  autoload :Manage, 'espresso/manage'
+  autoload :Concern,    'espresso/concern'
+  autoload :Manage,     'espresso/manage'
 
   BASE_MODULES = %w(model view controller)
 
